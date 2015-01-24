@@ -32,7 +32,9 @@ public class ProxyHandler {
 	}
 	
 	public boolean isRequestLegal() {
-		// TODO: Implement
+		// TODO: Implement. to check: Error 403 - access denied (3 options as written in the exercise).
+		// TODO: if There was a Block write it to a file
+		
 		
 		return true;
 	}
@@ -42,7 +44,7 @@ public class ProxyHandler {
 		setHostAndPath();
 		
 		destination = new Socket(host, 80);
-		// TODO: Check if IP is legal here or in previous method
+		// TODO: Check if IP is legal here or in previous method - TO CHECK In the previous function
 		output = new DataOutputStream(destination.getOutputStream());
 		input = new DataInputStream(destination.getInputStream());
 	}

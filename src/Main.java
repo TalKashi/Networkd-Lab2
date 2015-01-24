@@ -3,6 +3,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Tal Kashi & Tamir Croll
@@ -10,13 +14,19 @@ import java.io.IOException;
  */
 public class Main {
 	private final static String CONFIG_FILE = "config.ini";
+	private final static String POLICY_FILE ="policy.ini";
+	private final static String BLOCK_SITE = "block-site";
+	private final static String BLOCK_RESOURCE = "block-resource";
+	private final static String BLOCK_IP_MASK = "block-ip-mask";
 	
 	private static String defaultPage = null;
 	private static int port = 0;
 	private static int maxThreads = 0;
 	private static File root = null;
+	private static Set<String> blockSite = new HashSet<String>();
+	private static Set<String> blockResource = new HashSet<String>();
+	private static Set<String> blockIpMask = new HashSet<String>();
 	
-
 	public static void main(String[] args) {
 		try {
 			BufferedReader input = new BufferedReader(new FileReader(CONFIG_FILE));
@@ -69,12 +79,52 @@ public class Main {
 			System.exit(1);
 		}
 		
+		readPolicyFile();
+		
 		WebServer server;
 		try {
 			server = new WebServer(root, defaultPage, port, maxThreads);
 			server.run();
 		} catch(IOException e) {
 			System.out.println("ERROR: Failed to create ServerSocket! Exiting program.");
+			System.exit(1);
+		}
+		
+	}
+
+
+	private static void readPolicyFile() {
+		try {
+			BufferedReader input = new BufferedReader(new FileReader(POLICY_FILE));
+			String line = null;
+			String[] parsedLine;
+			while((line = input.readLine()) != null) {
+				parsedLine = line.split(" ");
+				if(parsedLine.length != 2){
+					System.out.println("ERROR: The Line: '" + line + "' in the policy.ini file can not be parsed");
+					continue;
+				}
+				switch (parsedLine[0].toLowerCase()){
+				case BLOCK_SITE:
+					blockSite.add(parsedLine[1].replaceAll("\"", "").toLowerCase());
+					break;
+				case BLOCK_RESOURCE:
+					blockResource.add(parsedLine[1].replaceAll("\"", "").toLowerCase());
+					break;
+				case BLOCK_IP_MASK:
+					blockIpMask.add(parsedLine[1].replaceAll("\"", "").toLowerCase());
+					break;
+				default:
+					System.out.println("ERROR: The policy rule: '" + parsedLine[0] + "' does not exists");
+				}
+			}
+			input.close();
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("ERROR: File '" + POLICY_FILE + "' was not found! Exiting program.");
+			System.exit(1);
+		} catch (IOException e) {
+			System.out.println("ERROR: Failed to read the policy file! Exiting program.");
 			System.exit(1);
 		}
 		
