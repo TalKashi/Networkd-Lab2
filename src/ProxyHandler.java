@@ -58,8 +58,8 @@ public class ProxyHandler {
 			for(String ipAndMask : policies.get(BLOCK_IP_MASK)){
 				ip = ipAndMask.split("/")[0];
 				mask = Integer.parseInt(ipAndMask.split("/")[1]);
-				int ip1 = Integer.parseInt(ip.replaceAll(".", "")) >> mask;
-				int ip2 = Integer.parseInt(address.getHostAddress().replaceAll(".", "")) >> mask;
+				long ip1 = (Long.parseLong(ip.replaceAll("\\.", ""))) >> mask;
+				long ip2 = (Long.parseLong(address.getHostAddress().replaceAll("\\.", ""))) >> mask;
 				if(ip1 == ip2){ 
 					writeBlockedSiteToFile(request , BLOCK_IP_MASK , writer);
 					return false;
@@ -68,9 +68,7 @@ public class ProxyHandler {
 			}
 			
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Host does not exists");
-			e.printStackTrace();
 			return false;
 		}
 
