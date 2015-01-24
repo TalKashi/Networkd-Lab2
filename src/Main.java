@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -18,17 +19,20 @@ public class Main {
 	private final static String BLOCK_SITE = "block-site";
 	private final static String BLOCK_RESOURCE = "block-resource";
 	private final static String BLOCK_IP_MASK = "block-ip-mask";
-	
+	private final static String BLOCKED_SITES = "blocked-Sites";
 	private static String defaultPage = null;
 	private static int port = 0;
 	private static int maxThreads = 0;
 	private static File root = null;
+	private static Map<String , Set<String>> policies = new HashMap<String , Set<String>>();
 	private static Set<String> blockSite = new HashSet<String>();
 	private static Set<String> blockResource = new HashSet<String>();
 	private static Set<String> blockIpMask = new HashSet<String>();
+	private static PrintWriter writer;
 	
 	public static void main(String[] args) {
 		try {
+			writer = new PrintWriter(BLOCKED_SITES);
 			BufferedReader input = new BufferedReader(new FileReader(CONFIG_FILE));
 			
 			String line = null;
@@ -83,7 +87,7 @@ public class Main {
 		
 		WebServer server;
 		try {
-			server = new WebServer(root, defaultPage, port, maxThreads);
+			server = new WebServer(root, defaultPage, port, maxThreads , policies , writer);
 			server.run();
 		} catch(IOException e) {
 			System.out.println("ERROR: Failed to create ServerSocket! Exiting program.");
@@ -119,6 +123,9 @@ public class Main {
 				}
 			}
 			input.close();
+			policies.put(BLOCK_SITE, blockSite);
+			policies.put(BLOCK_RESOURCE, blockResource);
+			policies.put(BLOCK_IP_MASK, blockIpMask);
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: File '" + POLICY_FILE + "' was not found! Exiting program.");
@@ -127,6 +134,5 @@ public class Main {
 			System.out.println("ERROR: Failed to read the policy file! Exiting program.");
 			System.exit(1);
 		}
-		
 	}
 }

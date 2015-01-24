@@ -3,8 +3,12 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class HTTPConnection implements Runnable {
 	private static int counter = 0;
@@ -14,12 +18,15 @@ public class HTTPConnection implements Runnable {
 	private DataOutputStream output;
 	private File root;
 	private String defaultPage;
+	private static Map<String , Set<String>> policies;
 	private int myCounter;
-
-	public HTTPConnection(Socket socket, File root, String defaultPage) throws IOException {
+	private PrintWriter writer;
+	public HTTPConnection(Socket socket, File root, String defaultPage, Map<String, Set<String>> policies, PrintWriter writer) throws IOException {
 		this.socket = socket;
 		this.root = root;
 		this.defaultPage = defaultPage;
+		this.policies = policies;
+		this.writer = writer;
 		input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		output = new DataOutputStream(socket.getOutputStream());
 		myCounter = counter++;
@@ -73,14 +80,14 @@ public class HTTPConnection implements Runnable {
 				}
 				
 				ProxyHandler proxyHandler = new ProxyHandler(request, myCounter);
+
+				proxyHandler.connectToHost();
 				
-				if(!proxyHandler.isRequestLegal()) {
+				if(!proxyHandler.isRequestLegal(policies , writer)) {
 					new HTTPResponse(output).generateSpecificResponse(403);
 					//closeConnection();
 					continue;
 				}
-				
-				proxyHandler.connectToHost();
 				
 				proxyHandler.sendRequest();
 				

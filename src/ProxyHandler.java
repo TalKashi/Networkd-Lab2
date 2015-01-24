@@ -1,22 +1,29 @@
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 public class ProxyHandler {
-	
+
 	private static final String CRLF = "\r\n";
-	
+	private final static String BLOCK_SITE = "block-site";
+	private final static String BLOCK_RESOURCE = "block-resource";
+	private final static String BLOCK_IP_MASK = "block-ip-mask";
+	private final static String BLOCKED_SITES = "blocked.txt";
 	private static final int BUFFER_SIZE = 1024;	
-	
+
 	private HTTPRequest request;
 	private Socket destination;
 	private DataOutputStream output;
@@ -25,30 +32,63 @@ public class ProxyHandler {
 	private String contentLength = null;
 	private int myCounter;
 	private String host, path;
-	
+
 	public ProxyHandler(HTTPRequest request, int counter) {
 		this.request = request;
 		myCounter = counter;
 	}
-	
-	public boolean isRequestLegal() {
-		// TODO: Implement. to check: Error 403 - access denied (3 options as written in the exercise).
-		// TODO: if There was a Block write it to a file
-		
-		
+
+	public boolean isRequestLegal(Map<String, Set<String>> policies, PrintWriter writer) {
+		for(String site : policies.get(BLOCK_SITE)){
+			if(request.getPath().contains(site)){
+				writeBlockedSiteToFile(request , BLOCK_SITE , writer);
+				return false;
+			}
+		}
+		for(String site : policies.get(BLOCK_RESOURCE)){
+			if(request.getPath().endsWith(site)){
+				writeBlockedSiteToFile(request , BLOCK_RESOURCE , writer);
+				return false;
+			}
+		}	
+		InetAddress address;
+		String ip = "" , mask = "";
+		try {
+			address = InetAddress.getByName(host);
+			for(String ipAndMask : policies.get(BLOCK_IP_MASK)){
+				ip = ipAndMask.split("/")[0];
+				mask = ipAndMask.split("/")[1];
+				if(address.getHostAddress().contains("")){ // TODO: Check if the host name is Blocked !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					writeBlockedSiteToFile(request , BLOCK_IP_MASK , writer);
+					return false;
+				}
+			}
+			
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Host does not exists");
+			e.printStackTrace();
+			return false;
+		}
+
+
 		return true;
 	}
-	
+
+	public void writeBlockedSiteToFile(HTTPRequest request , String rule, PrintWriter writer) {
+		writer.append("Time of blocking: " + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()) + "\n");
+			//TODO: Write the HTTP request
+		writer.append("Rule Blocked the request: " + rule + "\n\n").flush();
+	}
+
 	public void connectToHost() throws UnknownHostException, IOException {
-		// TODO: Get host from first line
 		setHostAndPath();
 		
 		destination = new Socket(host, 80);
-		// TODO: Check if IP is legal here or in previous method - TO CHECK In the previous function
 		output = new DataOutputStream(destination.getOutputStream());
 		input = new DataInputStream(destination.getInputStream());
 	}
-	
+
 	private void setHostAndPath() {
 		String pathFromRequest = request.getPath().toLowerCase() + request.getQuery();
 		System.out.println(myCounter + " | DEBUG: Frist line: " + pathFromRequest);
@@ -62,29 +102,29 @@ public class ProxyHandler {
 			// TODO: throw exception to handle with it
 		}
 	}
-	
+
 	public void sendRequest() throws IOException {
 		System.out.println(myCounter + " | ### Sending request from proxy ###");
-		
+
 		// TODO: Check if need to change request path
 		//output.writeBytes(request.getFirstLine() + CRLF);
 		output.writeBytes(request.getMethod().toString() + " " + path + " " + request.getVersion() + CRLF);
 		System.out.println(myCounter + " | DEBUG PRINT: " + request.getMethod().toString() + " " + path + " " + request.getVersion());
-		
+
 		HashMap<String, String> headers = request.getHeaders();
 		for (String key : headers.keySet()) {
 			output.writeBytes(key + ": " + headers.get(key) + CRLF);
 		}
 		output.writeBytes(CRLF);
-		
+
 		String body = request.getBody();
 		if(body != null) {
 			output.write(body.getBytes());
 		}
-		
+
 		System.out.println(myCounter + " | ### Finished sending request from proxy ###");
 	}
-	
+
 	public void getResponse(DataOutputStream clientOutputStream) throws IOException {
 		System.out.println(myCounter + " | ### Getting response from destination host and sending to client ###");
 		// TODO: Support chunked response?
@@ -99,7 +139,7 @@ public class ProxyHandler {
 		}
 		clientOutputStream.writeBytes(CRLF);
 		int bufferSize = 0;
-		
+
 		try {
 			if(contentLength != null)
 				bufferSize = Integer.parseInt(contentLength);
@@ -123,7 +163,7 @@ public class ProxyHandler {
 				System.out.println(myCounter + " | ### EOF have been reached! ###");
 			}
 			clientOutputStream.write(buffer);
-			
+
 		} else {
 			// Read until end of stream
 			System.out.println(myCounter + " | ### Unkown body length ###");
@@ -181,7 +221,7 @@ public class ProxyHandler {
 			// Noting to do
 		}		
 	}
-	
+
 	private String readLine() throws IOException {
 		StringBuilder msg = new StringBuilder();
 		char c;
