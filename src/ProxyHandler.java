@@ -21,7 +21,6 @@ public class ProxyHandler {
 	private final static String BLOCK_SITE = "block-site";
 	private final static String BLOCK_RESOURCE = "block-resource";
 	private final static String BLOCK_IP_MASK = "block-ip-mask";
-	private final static String BLOCKED_SITES = "blocked.txt";
 	private static final int BUFFER_SIZE = 1024;	
 
 	private HTTPRequest request;
@@ -52,16 +51,20 @@ public class ProxyHandler {
 			}
 		}	
 		InetAddress address;
-		String ip = "" , mask = "";
+		String ip = "";
+		int mask;
 		try {
 			address = InetAddress.getByName(host);
 			for(String ipAndMask : policies.get(BLOCK_IP_MASK)){
 				ip = ipAndMask.split("/")[0];
-				mask = ipAndMask.split("/")[1];
-				if(address.getHostAddress().contains("")){ // TODO: Check if the host name is Blocked !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				mask = Integer.parseInt(ipAndMask.split("/")[1]);
+				int ip1 = Integer.parseInt(ip.replaceAll(".", "")) >> mask;
+				int ip2 = Integer.parseInt(address.getHostAddress().replaceAll(".", "")) >> mask;
+				if(ip1 == ip2){ 
 					writeBlockedSiteToFile(request , BLOCK_IP_MASK , writer);
 					return false;
 				}
+	
 			}
 			
 		} catch (UnknownHostException e) {
@@ -78,6 +81,11 @@ public class ProxyHandler {
 	public void writeBlockedSiteToFile(HTTPRequest request , String rule, PrintWriter writer) {
 		writer.append("Time of blocking: " + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()) + "\n");
 			//TODO: Write the HTTP request
+		writer.append("HTTP request:\n");
+		for(String key : request.getHeaders().keySet()){
+			writer.append(key + ": " + request.getHeaders().get(key) + "\n");
+		}
+		writer.append(request.getFirstLine());
 		writer.append("Rule Blocked the request: " + rule + "\n\n").flush();
 	}
 
