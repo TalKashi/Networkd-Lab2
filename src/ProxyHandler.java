@@ -80,12 +80,11 @@ public class ProxyHandler {
 
 	public void writeBlockedSiteToFile(HTTPRequest request , String rule, PrintWriter writer) {
 		writer.append("Time of blocking: " + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()) + "\n");
-			//TODO: Write the HTTP request
 		writer.append("HTTP request:\n");
-		for(String key : request.getHeaders().keySet()){
-			writer.append(key + ": " + request.getHeaders().get(key) + "\n");
-		}
 		writer.append(request.getFirstLine());
+		for(String key : request.getHeaders().keySet()){
+			writer.append("  " + key + ": " + request.getHeaders().get(key) + "\n");
+		}
 		writer.append("Rule Blocked the request: " + rule + "\n\n").flush();
 	}
 
@@ -245,5 +244,4 @@ public class ProxyHandler {
 		}
 		return msg.toString();
 	}
-
 }
