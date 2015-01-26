@@ -134,6 +134,7 @@ public class ProxyHandler {
 		System.out.println(myCounter + " | ### Getting response from destination host and sending to client ###");
 		// TODO: Support chunked response?
 		boolean foundChunkedOrContentLength = false;
+		
 		String line;
 		while((line = readLine()) != null && !line.isEmpty()) {
 			System.out.println(line);
