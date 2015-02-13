@@ -15,7 +15,7 @@ import java.util.Set;
  */
 public class Main {
 	private final static String CONFIG_FILE = "config.ini";
-	private final static String POLICY_FILE ="policy.ini";
+	private static String policyFile;
 	private static String defaultPage = null;
 	private static int port = 0;
 	private static int maxThreads = 0;
@@ -31,11 +31,15 @@ public class Main {
 	public final static String BLOCK_RESOURCE = "block-resource";
 	public final static String BLOCK_IP_MASK = "block-ip-mask";
 	public final static String WHITE_LIST = "white-list";
-	public final static String BLOCKED_SITES_FILE = "blocked-Sites.txt";
+	public static File logFile;
 	
 	public static void main(String[] args) {
+		if(args.length != 1) {
+			System.out.println("USAGE: java proxySever [policy_file]");
+			System.exit(1);
+		}
+		policyFile = args[0];
 		try {
-			writer = new PrintWriter(BLOCKED_SITES_FILE);
 			BufferedReader input = new BufferedReader(new FileReader(CONFIG_FILE));
 			
 			String line = null;
@@ -64,6 +68,16 @@ public class Main {
 					} else if (strArray[0].equalsIgnoreCase("maxThreads")) {
 						if(maxThreads <= 0)
 							maxThreads = Integer.parseInt(strArray[1]);
+					} else if (strArray[0].equalsIgnoreCase("logPath")) {
+						if (logFile == null) {
+							logFile = new File(strArray[1]);
+							if(logFile.createNewFile()) {
+								System.out.println("DEBUG: Created new file for logs");
+							} else {
+								System.out.println("DEBUG: Log file already existed");
+							}
+							writer = new PrintWriter(logFile);
+						}
 					}
 				} catch(NumberFormatException e) {
 					System.out.println("ERROR: Failed to parse the number given to port/maxThreads!");
@@ -99,10 +113,9 @@ public class Main {
 		
 	}
 
-
 	private static void readPolicyFile() {
 		try {
-			BufferedReader input = new BufferedReader(new FileReader(POLICY_FILE));
+			BufferedReader input = new BufferedReader(new FileReader(policyFile));
 			String line = null;
 			String[] parsedLine;
 			while((line = input.readLine()) != null) {
@@ -135,7 +148,7 @@ public class Main {
 			policies.put(WHITE_LIST, whiteList);
 			
 		} catch (FileNotFoundException e) {
-			System.out.println("ERROR: File '" + POLICY_FILE + "' was not found! Exiting program.");
+			System.out.println("ERROR: File '" + policyFile + "' was not found! Exiting program.");
 			System.exit(1);
 		} catch (IOException e) {
 			System.out.println("ERROR: Failed to read the policy file! Exiting program.");

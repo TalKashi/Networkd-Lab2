@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class HTTPConnection implements Runnable {
+	// Used to distinguish between different connections in the trace prints
 	private static int counter = 0;
 	
 	private Socket socket;
@@ -18,9 +19,10 @@ public class HTTPConnection implements Runnable {
 	private DataOutputStream output;
 	private File root;
 	private String defaultPage;
-	private static Map<String , Set<String>> policies;
+	private Map<String , Set<String>> policies;
 	private int myCounter;
 	private PrintWriter writer;
+	
 	public HTTPConnection(Socket socket, File root, String defaultPage, Map<String, Set<String>> policies, PrintWriter writer) throws IOException {
 		this.socket = socket;
 		this.root = root;
@@ -44,15 +46,12 @@ public class HTTPConnection implements Runnable {
 					break; // Parsed OK, continue to headers
 				case 400:
 					new HTTPResponse(output).generateSpecificResponse(400);
-					//closeConnection();
 					continue;
 				case 501:
 					new HTTPResponse(output).generateSpecificResponse(501);
-					//closeConnection();
 					continue;
 				default:
 					new HTTPResponse(output).generateSpecificResponse(500);
-					//closeConnection();
 					continue;
 				}
 				
@@ -60,7 +59,6 @@ public class HTTPConnection implements Runnable {
 				
 				if(request.checkVersion()) {
 					new HTTPResponse(output).generateSpecificResponse(400);
-					//closeConnection();
 					continue;
 				}
 				
@@ -80,8 +78,6 @@ public class HTTPConnection implements Runnable {
 				}
 				
 				ProxyHandler proxyHandler = new ProxyHandler(request, myCounter);
-
-				proxyHandler.connectToHost();
 				
 				if(proxyHandler.isSeeLog()){
 					new HTTPResponse(output).generateSeeLogResponse(policies);
@@ -94,10 +90,11 @@ public class HTTPConnection implements Runnable {
 				}
 				
 				if(!proxyHandler.isRequestLegal(policies , writer)) {
-					new HTTPResponse(output).generateSpecificResponse(403);
-					//closeConnection();
+					new HTTPResponse(output).generateAccessDeniedResponse(proxyHandler.getRuleBlocked());
 					continue;
 				}
+				
+				proxyHandler.connectToHost();
 				
 				proxyHandler.sendRequest();
 				

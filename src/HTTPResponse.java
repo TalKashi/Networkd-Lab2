@@ -16,6 +16,7 @@ public class HTTPResponse {
 	}
 	
 	private final static String BAD_REQUEST_MSG ="400 Bad Request";
+	private static final String ACCESS_DENIED_MSG = "403 Access Denied";
 	private final static String NOT_FOUND_MSG ="404 Not Found";
 	private final static String LENGTH_REQUIRED_MSG ="411 Length Required";
 	private final static String INTERNAL_ERROR_MSG ="500 Internal Server Error";
@@ -31,10 +32,12 @@ public class HTTPResponse {
 	private final static String INTERNAL_ERROR = HTTP_VERSION + " " + INTERNAL_ERROR_MSG + CRLF;
 	private final static String LENGTH_REQUIRED = HTTP_VERSION + " " + LENGTH_REQUIRED_MSG + CRLF;
 	private final static String NOT_IMPLEMENTED = HTTP_VERSION + " " + NOT_IMPLEMENTED_MSG + CRLF;
+	private static final String ACCESS_DENIED = HTTP_VERSION + " " + ACCESS_DENIED_MSG + CRLF;
 	private final static String CONTENT_TYPE = "Content-Type";
 	private final static String CONTENT_LENGTH = "Content-Length";
 	
 	private final static String ERROR_BODY = "<HTML><BODY><H1> %s </H1></BODY></HTML>";
+	private final static String ACCESS_DENIED_BODY = "<HTML><BODY><H1> %s </H1><p> %s </p></BODY></HTML>";
 	
 	private final static int BUFFER_SIZE = 100;	
 
@@ -77,15 +80,19 @@ public class HTTPResponse {
 		case 301:
 			sendResponse(MOVED_PERMANENTLY, String.format(ERROR_BODY, MOVED_PERMANENTLY_MSG), true);
 			break;
-			// TODO: Add 403 support
 		}
+	}
+	
+	public void generateAccessDeniedResponse(String rule) throws IOException {
+		sendResponse(ACCESS_DENIED, String.format(ACCESS_DENIED_BODY, ACCESS_DENIED_MSG, rule), true);
 	}
 	
 	public void generateSeeLogResponse(Map<String, Set<String>> policies) throws IOException {
 		String body = "<html><h1>See Log</h1>";
-		BufferedReader input = new BufferedReader(new FileReader(Main.BLOCKED_SITES_FILE));
-		while((body += input.readLine()) != null) {
-			body += "<br>";
+		String line = null;
+		BufferedReader input = new BufferedReader(new FileReader(Main.logFile));
+		while((line = input.readLine()) != null) {
+			body += line + "<br>";
 		}
 		input.close();
 		body += "</html>";
@@ -94,15 +101,14 @@ public class HTTPResponse {
 	}
 	
 	public void generateEditPolicyResponse(Map<String, Set<String>> policies) throws IOException {
-		String body = "<html><h1>Edit Policies</h1><form action=\"\" method=\"GET\" ><textarea>"; 
+		String body = "<html><h1>Edit Policies</h1><form action=\"\" method=\"GET\" ><textarea rows='10' cols='50'>"; 
 		//TODO: Check where To send the page to in the action attribute
 		for(String policy : policies.keySet()){
 			for(String rule : policies.get(policy)){
-				body += policy + ":" + rule + ",";
+				body += policy + " \"" + rule + "\"" + CRLF;
 			}
 		}
-		body = body.substring(0, body.length() - 1);
-		body += "</tetxtarea>" +
+		body += "</textarea><br>" +
 				"<submit><input type=\"submit\" value=\"Submit\">"
 				+ "</form></html>";
 		sendResponse(OK, body, true);

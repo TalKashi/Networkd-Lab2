@@ -29,7 +29,7 @@ public class ProxyHandler {
 	private boolean chunked = false;
 	private String contentLength = null;
 	private int myCounter;
-	private String host, path;
+	private String host, path, ruleBlocked;
 
 	/**
 	 * Constructor
@@ -66,7 +66,6 @@ public class ProxyHandler {
 	}
 
 	public void connectToHost() throws UnknownHostException, IOException {
-		setHostAndPath();
 
 		destination = new Socket(host, 80);
 		output = new DataOutputStream(destination.getOutputStream());
@@ -194,11 +193,15 @@ public class ProxyHandler {
 		}
 		return false;
 	}
+	
+	public String getRuleBlocked() {
+		return ruleBlocked;
+	}
 
 	private boolean isSiteInWhitlist(Map<String, Set<String>> policies) {
 		if(policies.get(Main.WHITE_LIST).contains(request.getPath())){
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -206,7 +209,7 @@ public class ProxyHandler {
 	private boolean isSiteBlock(Map<String, Set<String>> policies, PrintWriter writer) {
 		for(String site : policies.get(Main.BLOCK_SITE)){
 			if(request.getPath().contains(site)){
-				writeBlockedSiteToFile(request , Main.BLOCK_SITE , writer);
+				writeBlockedSiteToFile(request , Main.BLOCK_SITE + " \"" + site + "\"", writer);
 				return true;
 			}
 		}
@@ -217,7 +220,7 @@ public class ProxyHandler {
 			PrintWriter writer) {
 		for(String resource : policies.get(Main.BLOCK_RESOURCE)){
 			if(request.getPath().endsWith(resource)){
-				writeBlockedSiteToFile(request , Main.BLOCK_RESOURCE , writer);
+				writeBlockedSiteToFile(request , Main.BLOCK_RESOURCE + " \"" + resource + "\"", writer);
 				return true;
 			}
 		}
@@ -225,25 +228,59 @@ public class ProxyHandler {
 	}
 
 	private boolean isIpBlocked(Map<String, Set<String>> policies, PrintWriter writer) {
+		setHostAndPath();
 		InetAddress address;
-		String ip;
+		byte[] ip;
 		int mask;
 		try{
 			address = InetAddress.getByName(host);
+			byte[] rawDestinationIp = address.getAddress();
 			for(String ipAndMask : policies.get(Main.BLOCK_IP_MASK)){
-				ip = ipAndMask.split("/")[0];
+				ip = constructByteArrayFromIp(ipAndMask.split("/")[0]);
+				if(ip == null)
+					continue;
 				mask = Integer.parseInt(ipAndMask.split("/")[1]);
-				long ip1 = (Long.parseLong(ip.replaceAll("\\.", ""))) >> mask;
-				long ip2 = (Long.parseLong(address.getHostAddress().replaceAll("\\.", ""))) >> mask;
-				if(ip1 == ip2){ 
-					writeBlockedSiteToFile(request , Main.BLOCK_IP_MASK , writer);
+				if(shouldBlockIp(rawDestinationIp, ip, mask)) {
+					writeBlockedSiteToFile(request , Main.BLOCK_IP_MASK + " \"" + ipAndMask + "\"", writer);
 					return true;
 				}
 			}
-		}catch(UnknownHostException e){
+		} catch(UnknownHostException e){
 			return false;
 		}
 		return false;
+	}
+	
+	private byte[] constructByteArrayFromIp(String ip) {
+		String[] strArray = ip.split("\\.");
+		if(strArray.length != 4) {
+			// Illegal ip address
+			return null;
+		}
+		byte[] byteArray = new byte[4];
+		for(int i = 0; i < 4; i++) {
+			int value = Integer.parseInt(strArray[i]);
+			if (value > 255 || value < 0) {
+				// Illegal ip address
+				return null;
+			}
+			byteArray[i] = (byte) value;
+		}
+		return byteArray;
+	}
+
+	// Returns true if and only if this ip should be blocked, false otherwise
+	private boolean shouldBlockIp(byte[] destinationIp, byte[] illegalIp, int mask) {
+		for(int i = 0; i < 4 && mask > 0; i++, mask -= 8) {
+			if(mask < 8) {
+				destinationIp[i] >>>= (8 - mask);
+				illegalIp[i] >>>= (8 - mask);
+			}
+			if(destinationIp[i] != illegalIp[i]) {
+				return false;
+			}
+		}		
+		return true;
 	}
 
 	private void setHostAndPath() {
@@ -288,13 +325,14 @@ public class ProxyHandler {
 	}
 
 	private void writeBlockedSiteToFile(HTTPRequest request , String rule, PrintWriter writer) {
-		writer.append("Time of blocking: " + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()) + "\n");
+		writer.append("Time of blocking: " + new SimpleDateFormat("dd\\MM\\yyyy HH:mm:ss").format(new Date()) + "\n");
 		writer.append("HTTP request:\n");
-		writer.append(request.getFirstLine());
+		writer.append(request.getFirstLine() + "\n");
 		for(String key : request.getHeaders().keySet()){
 			writer.append("  " + key + ": " + request.getHeaders().get(key) + "\n");
 		}
 		writer.append("Rule Blocked the request: " + rule + "\n\n").flush();
+		ruleBlocked = rule;
 	}
 
 	private String readLine() throws IOException {

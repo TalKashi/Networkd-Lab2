@@ -40,8 +40,8 @@ public class WebServer {
 	public void run() {
 		while(true) {
 			try {
-				Socket connectiont = server.accept();
-				HTTPConnection HttpConnection = new HTTPConnection(connectiont, root, defaultPage , policies , writer);
+				Socket connection = server.accept();
+				HTTPConnection HttpConnection = new HTTPConnection(connection, root, defaultPage , policies , writer);
 				threadsPool.execute(HttpConnection);
 
 			} catch (IOException e) {
