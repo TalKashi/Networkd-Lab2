@@ -37,7 +37,7 @@ public class HTTPConnection implements Runnable {
 		boolean keepAlive = true;
 		while(keepAlive) {
 			HTTPRequest request  = new HTTPRequest();
-			
+				
 			try {
 				switch(request.parseFirstLine(input)) {
 				case 0:
@@ -82,6 +82,16 @@ public class HTTPConnection implements Runnable {
 				ProxyHandler proxyHandler = new ProxyHandler(request, myCounter);
 
 				proxyHandler.connectToHost();
+				
+				if(proxyHandler.isSeeLog()){
+					new HTTPResponse(output).generateSeeLogResponse(policies);
+					continue;
+				}
+				
+				if(proxyHandler.isEditPolicy()){
+					new HTTPResponse(output).generateEditPolicyResponse(policies);
+					continue;
+				}
 				
 				if(!proxyHandler.isRequestLegal(policies , writer)) {
 					new HTTPResponse(output).generateSpecificResponse(403);

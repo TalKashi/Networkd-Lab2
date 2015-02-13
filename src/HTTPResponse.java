@@ -1,8 +1,12 @@
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 
 public class HTTPResponse {
@@ -77,6 +81,33 @@ public class HTTPResponse {
 		}
 	}
 	
+	public void generateSeeLogResponse(Map<String, Set<String>> policies) throws IOException {
+		String body = "<html><h1>See Log</h1>";
+		BufferedReader input = new BufferedReader(new FileReader(Main.BLOCKED_SITES_FILE));
+		while((body += input.readLine()) != null) {
+			body += "<br>";
+		}
+		input.close();
+		body += "</html>";
+		sendResponse(OK, body, true);
+		
+	}
+	
+	public void generateEditPolicyResponse(Map<String, Set<String>> policies) throws IOException {
+		String body = "<html><h1>Edit Policies</h1><form action=\"\" method=\"GET\" ><textarea>"; 
+		//TODO: Check where To send the page to in the action attribute
+		for(String policy : policies.keySet()){
+			for(String rule : policies.get(policy)){
+				body += policy + ":" + rule + ",";
+			}
+		}
+		body = body.substring(0, body.length() - 1);
+		body += "</tetxtarea>" +
+				"<submit><input type=\"submit\" value=\"Submit\">"
+				+ "</form></html>";
+		sendResponse(OK, body, true);
+	}
+
 	public void generateResposne() throws IOException {
 		switch(request.getMethod()) {
 		case OPTIONS:
@@ -87,8 +118,10 @@ public class HTTPResponse {
 			break;
 		default:
 			handleRequest();
-		}		
+		}
 	}
+
+
 
 	private void handleRequest() throws IOException {
 		String path = request.getPath();

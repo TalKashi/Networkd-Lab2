@@ -16,10 +16,6 @@ import java.util.Set;
 public class Main {
 	private final static String CONFIG_FILE = "config.ini";
 	private final static String POLICY_FILE ="policy.ini";
-	private final static String BLOCK_SITE = "block-site";
-	private final static String BLOCK_RESOURCE = "block-resource";
-	private final static String BLOCK_IP_MASK = "block-ip-mask";
-	private final static String BLOCKED_SITES = "blocked-Sites";
 	private static String defaultPage = null;
 	private static int port = 0;
 	private static int maxThreads = 0;
@@ -28,11 +24,18 @@ public class Main {
 	private static Set<String> blockSite = new HashSet<String>();
 	private static Set<String> blockResource = new HashSet<String>();
 	private static Set<String> blockIpMask = new HashSet<String>();
+	private static Set<String> whiteList = new HashSet<String>();
 	private static PrintWriter writer;
+
+	public final static String BLOCK_SITE = "block-site";
+	public final static String BLOCK_RESOURCE = "block-resource";
+	public final static String BLOCK_IP_MASK = "block-ip-mask";
+	public final static String WHITE_LIST = "white-list";
+	public final static String BLOCKED_SITES_FILE = "blocked-Sites.txt";
 	
 	public static void main(String[] args) {
 		try {
-			writer = new PrintWriter(BLOCKED_SITES);
+			writer = new PrintWriter(BLOCKED_SITES_FILE);
 			BufferedReader input = new BufferedReader(new FileReader(CONFIG_FILE));
 			
 			String line = null;
@@ -118,6 +121,9 @@ public class Main {
 				case BLOCK_IP_MASK:
 					blockIpMask.add(parsedLine[1].replaceAll("\"", "").toLowerCase());
 					break;
+				case WHITE_LIST:
+					whiteList.add(parsedLine[1].replaceAll("\"", "").toLowerCase());
+					break;
 				default:
 					System.out.println("ERROR: The policy rule: '" + parsedLine[0] + "' does not exists");
 				}
@@ -126,6 +132,7 @@ public class Main {
 			policies.put(BLOCK_SITE, blockSite);
 			policies.put(BLOCK_RESOURCE, blockResource);
 			policies.put(BLOCK_IP_MASK, blockIpMask);
+			policies.put(WHITE_LIST, whiteList);
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: File '" + POLICY_FILE + "' was not found! Exiting program.");

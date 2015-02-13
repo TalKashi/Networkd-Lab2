@@ -18,9 +18,8 @@ import java.util.regex.Pattern;
 public class ProxyHandler {
 
 	private static final String CRLF = "\r\n";
-	private final static String BLOCK_SITE = "block-site";
-	private final static String BLOCK_RESOURCE = "block-resource";
-	private final static String BLOCK_IP_MASK = "block-ip-mask";
+	private final static String POLICY_EDIT_SITE = "http://content-proxy/policies";
+	private final static String SEE_LOG_SITE = "http://content-proxy/logs";
 	private static final int BUFFER_SIZE = 1024;	
 
 	private HTTPRequest request;
@@ -32,83 +31,52 @@ public class ProxyHandler {
 	private int myCounter;
 	private String host, path;
 
+	/**
+	 * Constructor
+	 * @param request
+	 * @param counter
+	 */
 	public ProxyHandler(HTTPRequest request, int counter) {
 		this.request = request;
 		myCounter = counter;
 	}
 
+	/**
+	 * Check if the Request is legal according to the policies 
+	 * @param policies
+	 * @param writer
+	 * @return
+	 * @throws UnknownHostException 
+	 */
 	public boolean isRequestLegal(Map<String, Set<String>> policies, PrintWriter writer) {
-		for(String site : policies.get(BLOCK_SITE)){
-			if(request.getPath().contains(site)){
-				writeBlockedSiteToFile(request , BLOCK_SITE , writer);
-				return false;
-			}
+		//If the white list is not empty then Check if the site is in the list
+		if(policies.get(Main.WHITE_LIST).size() > 0){
+			return isSiteInWhitlist(policies);
 		}
-		for(String site : policies.get(BLOCK_RESOURCE)){
-			if(request.getPath().endsWith(site)){
-				writeBlockedSiteToFile(request , BLOCK_RESOURCE , writer);
-				return false;
-			}
-		}	
-		InetAddress address;
-		String ip = "";
-		int mask;
-		try {
-			address = InetAddress.getByName(host);
-			for(String ipAndMask : policies.get(BLOCK_IP_MASK)){
-				ip = ipAndMask.split("/")[0];
-				mask = Integer.parseInt(ipAndMask.split("/")[1]);
-				long ip1 = (Long.parseLong(ip.replaceAll("\\.", ""))) >> mask;
-				long ip2 = (Long.parseLong(address.getHostAddress().replaceAll("\\.", ""))) >> mask;
-				if(ip1 == ip2){ 
-					writeBlockedSiteToFile(request , BLOCK_IP_MASK , writer);
-					return false;
-				}
-	
-			}
-			
-		} catch (UnknownHostException e) {
-			System.out.println("Host does not exists");
+		if(isSiteBlock(policies, writer)){
 			return false;
 		}
-
-
-		return true;
-	}
-
-	public void writeBlockedSiteToFile(HTTPRequest request , String rule, PrintWriter writer) {
-		writer.append("Time of blocking: " + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()) + "\n");
-		writer.append("HTTP request:\n");
-		writer.append(request.getFirstLine());
-		for(String key : request.getHeaders().keySet()){
-			writer.append("  " + key + ": " + request.getHeaders().get(key) + "\n");
+		if(isResourseBlocked(policies, writer)){
+			return false;
 		}
-		writer.append("Rule Blocked the request: " + rule + "\n\n").flush();
+		if(isIpBlocked(policies, writer)){
+			return false;
+		}
+		return true;
 	}
 
 	public void connectToHost() throws UnknownHostException, IOException {
 		setHostAndPath();
-		
+
 		destination = new Socket(host, 80);
 		output = new DataOutputStream(destination.getOutputStream());
 		input = new DataInputStream(destination.getInputStream());
 	}
 
-	private void setHostAndPath() {
-		String pathFromRequest = request.getPath().toLowerCase() + request.getQuery();
-		System.out.println(myCounter + " | DEBUG: Frist line: " + pathFromRequest);
-		Pattern pattern = Pattern.compile("http://([^/]*)(/.*)");
-		Matcher matcher = pattern.matcher(pathFromRequest);
-		if(matcher.matches()) {
-			host = matcher.group(1);
-			path = matcher.group(2);
-		} else {
-			System.out.println(myCounter + " | ### Failed to match original path from request! (" + pathFromRequest + ") ###");
-			// TODO: throw exception to handle with it
-		}
-	}
-
 	public void sendRequest() throws IOException {
+		if(isEditPolicy() || isSeeLog()){
+			return;
+		}
 		System.out.println(myCounter + " | ### Sending request from proxy ###");
 
 		// TODO: Check if need to change request path
@@ -131,10 +99,14 @@ public class ProxyHandler {
 	}
 
 	public void getResponse(DataOutputStream clientOutputStream) throws IOException {
+		if(isEditPolicy() || isSeeLog()){
+			return;
+		}
+
 		System.out.println(myCounter + " | ### Getting response from destination host and sending to client ###");
 		// TODO: Support chunked response?
 		boolean foundChunkedOrContentLength = false;
-		
+
 		String line;
 		while((line = readLine()) != null && !line.isEmpty()) {
 			System.out.println(line);
@@ -186,6 +158,108 @@ public class ProxyHandler {
 		System.out.println(myCounter + " | ### Finished getting response from destination host and sending to client ###");
 	}
 
+	public void closeConnection() {
+		try {
+			if(input != null)
+				input.close();
+			if(output != null) {
+				output.flush();
+				output.close();
+			}
+			if(destination != null)
+				destination.close();
+		} catch (IOException e) {
+			// Noting to do
+		}		
+	}
+
+	/**
+	 * Check if the request asks to go to Edit Policy page
+	 * @return
+	 */
+	public boolean isEditPolicy(){
+		if(request.getPath().toLowerCase().equals(POLICY_EDIT_SITE)){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Check if the request asks to go to See Log page
+	 * @return
+	 */
+	public boolean isSeeLog() {
+		if(request.getPath().toLowerCase().equals(SEE_LOG_SITE)){
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isSiteInWhitlist(Map<String, Set<String>> policies) {
+		if(policies.get(Main.WHITE_LIST).contains(request.getPath())){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	private boolean isSiteBlock(Map<String, Set<String>> policies, PrintWriter writer) {
+		for(String site : policies.get(Main.BLOCK_SITE)){
+			if(request.getPath().contains(site)){
+				writeBlockedSiteToFile(request , Main.BLOCK_SITE , writer);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isResourseBlocked(Map<String, Set<String>> policies,
+			PrintWriter writer) {
+		for(String resource : policies.get(Main.BLOCK_RESOURCE)){
+			if(request.getPath().endsWith(resource)){
+				writeBlockedSiteToFile(request , Main.BLOCK_RESOURCE , writer);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isIpBlocked(Map<String, Set<String>> policies, PrintWriter writer) {
+		InetAddress address;
+		String ip;
+		int mask;
+		try{
+			address = InetAddress.getByName(host);
+			for(String ipAndMask : policies.get(Main.BLOCK_IP_MASK)){
+				ip = ipAndMask.split("/")[0];
+				mask = Integer.parseInt(ipAndMask.split("/")[1]);
+				long ip1 = (Long.parseLong(ip.replaceAll("\\.", ""))) >> mask;
+				long ip2 = (Long.parseLong(address.getHostAddress().replaceAll("\\.", ""))) >> mask;
+				if(ip1 == ip2){ 
+					writeBlockedSiteToFile(request , Main.BLOCK_IP_MASK , writer);
+					return true;
+				}
+			}
+		}catch(UnknownHostException e){
+			return false;
+		}
+		return false;
+	}
+
+	private void setHostAndPath() {
+		String pathFromRequest = request.getPath().toLowerCase() + request.getQuery();
+		System.out.println(myCounter + " | DEBUG: Frist line: " + pathFromRequest);
+		Pattern pattern = Pattern.compile("http://([^/]*)(/.*)");
+		Matcher matcher = pattern.matcher(pathFromRequest);
+		if(matcher.matches()) {
+			host = matcher.group(1);
+			path = matcher.group(2);
+		} else {
+			System.out.println(myCounter + " | ### Failed to match original path from request! (" + pathFromRequest + ") ###");
+			// TODO: throw exception to handle with it
+		}
+	}
+
 	private void readChunked(DataOutputStream clientOutputStream) throws IOException {
 		String chunkSizeHexa = readLine();
 		int chunkSize = Integer.parseInt(chunkSizeHexa, 16);
@@ -213,19 +287,14 @@ public class ProxyHandler {
 		return false;
 	}
 
-	public void closeConnection() {
-		try {
-			if(input != null)
-				input.close();
-			if(output != null) {
-				output.flush();
-				output.close();
-			}
-			if(destination != null)
-				destination.close();
-		} catch (IOException e) {
-			// Noting to do
-		}		
+	private void writeBlockedSiteToFile(HTTPRequest request , String rule, PrintWriter writer) {
+		writer.append("Time of blocking: " + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()) + "\n");
+		writer.append("HTTP request:\n");
+		writer.append(request.getFirstLine());
+		for(String key : request.getHeaders().keySet()){
+			writer.append("  " + key + ": " + request.getHeaders().get(key) + "\n");
+		}
+		writer.append("Rule Blocked the request: " + rule + "\n\n").flush();
 	}
 
 	private String readLine() throws IOException {
