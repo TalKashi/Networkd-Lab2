@@ -98,7 +98,13 @@ public class HTTPResponse {
 		sendResponse(OK, body, true);
 
 	}
-
+	
+	/**
+	 * generates the Edit Policy page
+	 * @param policies
+	 * @param msg
+	 * @throws IOException
+	 */
 	public void generateEditPolicyResponse(Map<String, Set<String>> policies , String msg) throws IOException {
 		String body = "<html><h1>Edit Policies</h1><span  style='color:#ff0000'>" + msg +"</span><form action='/new_policies' method='POST' >"
 				+ "<textarea name='textarea' rows='10' cols='50'>"; 
@@ -112,7 +118,14 @@ public class HTTPResponse {
 				+ "</form></html>";
 		sendResponse(OK, body, true);
 	}
-
+	
+	/**
+	 * Get the new policies changes' update them' and returns an updated html to the client
+	 * @param policies
+	 * @param request
+	 * @param httpConnection
+	 * @throws IOException
+	 */
 	public void editPoliciesAndGenerateResponse(Map<String, Set<String>> policies, HTTPRequest request, HTTPConnection httpConnection) throws IOException {
 
 		String body = request.getBody();
@@ -124,7 +137,7 @@ public class HTTPResponse {
 		
 		String[] allNewPolicies = body.split(",");
 		for(String newPolicy : allNewPolicies){
-			if(!isPolicyValid(newPolicy)){
+			if(!Main.isPolicyValid(newPolicy)){
 				generateEditPolicyResponse(policies, "The policies you entered were not valid");
 				return;
 			}
@@ -137,35 +150,10 @@ public class HTTPResponse {
 		}
 		writer.flush();
 		writer.close();
+		
 		Main.readPolicyFile();
 	
 		generateEditPolicyResponse(policies, "");
-	}
-
-	private boolean isPolicyValid(String policy) {
-		if(policy.replaceAll(" ", "").equals("")){
-			return true;
-		}
-		String[] policyAndBody = policy.split(" ");
-		if(policyAndBody.length != 2){
-			return false;
-		}else if(!policyAndBody[1].startsWith("\"") || !policyAndBody[1].endsWith("\"")){
-			return false;	
-		}
-		policyAndBody[1] = policyAndBody[1].replaceAll("\"", "");
-		if(!policyAndBody[0].equals(Main.BLOCK_SITE) && !policyAndBody[0].equals(Main.BLOCK_RESOURCE) && 
-				!policyAndBody[0].equals(Main.BLOCK_IP_MASK) && !policyAndBody[0].equals(Main.WHITE_LIST) ){
-			return false;
-		}
-		//TODO: End this functions
-		else if(policyAndBody[0].equals(Main.BLOCK_RESOURCE) && !policyAndBody[1].matches("\\..*")){
-			return false;
-		}
-		else if(policyAndBody[0].equals(Main.BLOCK_IP_MASK) && !policyAndBody[1].matches("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+")){
-			return false;
-		}
-		
-		return true;
 	}
 
 	public void generateResposne() throws IOException {
@@ -180,8 +168,6 @@ public class HTTPResponse {
 			handleRequest();
 		}
 	}
-
-
 
 	private void handleRequest() throws IOException {
 		String path = request.getPath();

@@ -125,7 +125,7 @@ public class Main {
 			String[] parsedLine;
 			while((line = input.readLine()) != null) {
 				parsedLine = line.split(" ");
-				if(parsedLine.length != 2){
+				if(!isPolicyValid(line)){
 					System.out.println("ERROR: The Line: '" + line + "' in the policy.ini file can not be parsed");
 					continue;
 				}
@@ -160,4 +160,30 @@ public class Main {
 			System.exit(1);
 		}
 	}
+	
+	public static boolean isPolicyValid(String policy) {
+		if(policy.replaceAll(" ", "").equals("")){
+			return true;
+		}
+		String[] policyAndBody = policy.split(" ");
+		if(policyAndBody.length != 2){
+			return false;
+		}else if(!policyAndBody[1].startsWith("\"") || !policyAndBody[1].endsWith("\"")){
+			return false;	
+		}
+		policyAndBody[1] = policyAndBody[1].replaceAll("\"", "");
+		if(!policyAndBody[0].equals(Main.BLOCK_SITE) && !policyAndBody[0].equals(Main.BLOCK_RESOURCE) && 
+				!policyAndBody[0].equals(Main.BLOCK_IP_MASK) && !policyAndBody[0].equals(Main.WHITE_LIST) ){
+			return false;
+		}
+		else if(policyAndBody[0].equals(Main.BLOCK_RESOURCE) && !policyAndBody[1].matches("\\..*")){
+			return false;
+		}
+		else if(policyAndBody[0].equals(Main.BLOCK_IP_MASK) && !policyAndBody[1].matches("[0-9][0-9]?[0-9]?\\.[0-9][0-9]?[0-9]?\\.[0-9][0-9]?[0-9]?\\.[0-9][0-9]?[0-9]?/[0-9][0-9]?")){
+			return false;
+		}
+		
+		return true;
+	}
+	
 }
