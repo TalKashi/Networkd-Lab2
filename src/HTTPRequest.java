@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,16 +12,16 @@ public class HTTPRequest {
 	private static final String HTTP_11 = "HTTP/1.1";
 	private static final String HTTP_10 = "HTTP/1.0";
 	private static final String CONTENT_LENGTH = "content-length";
-	
+
 	private static Pattern requestLine = Pattern.compile("(\\S+)\\s+([^\\s?]+)(\\?(\\S+))?\\s+(HTTP/[0-9.]+)");
 	private static Pattern headerLine = Pattern.compile("([^:]+):\\s*(.*)");
 	private static Pattern queryLine = Pattern.compile("([^&=]+)=([^&=]+)");
-	
-	
+
+
 	private Method method;
 	private String path, query, version, body, firstLine;
 	private HashMap<String, String> headersMap, parametersMap;	
-	
+
 	public HTTPRequest () {
 		headersMap = new HashMap<String, String>();
 		parametersMap = new HashMap<String, String>();
@@ -48,10 +49,10 @@ public class HTTPRequest {
 	public int readBody(BufferedReader input) throws IOException {
 		if(method != Method.POST)
 			return 0;
-		
+
 		if(!headersMap.containsKey(CONTENT_LENGTH))
 			return 411; // Length Required!
-		
+
 		int bufferSize = -1;
 		try {
 			bufferSize = Integer.parseInt(headersMap.get(CONTENT_LENGTH));
@@ -62,15 +63,15 @@ public class HTTPRequest {
 		if(bufferSize < 0) {
 			return 500;
 		}
-		
+
 		char buffer[] = new char[bufferSize];
 		input.read(buffer, 0, bufferSize);
 		body = new String(buffer);
 		//parseQuery(true);
-		
+
 		return 0;
 	}
-	
+
 
 	/**
 	 * Parse the query.
@@ -82,13 +83,13 @@ public class HTTPRequest {
 		}
 		if(parseStr == null)
 			return;
-		
+
 		Matcher matcher = queryLine.matcher(parseStr);
-		
+
 		while(matcher.find()) {
 			String key = matcher.group(1);
 			String value = matcher.group(2);
-			
+
 			try {
 				// Use URLDecoder to handle %20 etc
 				parametersMap.put(key, URLDecoder.decode(value, "UTF-8"));
@@ -98,26 +99,31 @@ public class HTTPRequest {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 	/**
 	 * Read HTTP request headers
 	 * @param input
+	 * @param set 
+	 * @param policies 
 	 * @throws IOException
 	 */
-	public void readHeaders(BufferedReader input) throws IOException {
-		//System.out.println("GOT HERE");
+	public void readHeaders(BufferedReader input, Set<String> blockedHeaders) throws IOException {
 		String line;
 		while ((line = input.readLine()) != null && !line.isEmpty()) {
 			System.out.println(line);
 			Matcher matcher = headerLine.matcher(line);
 			if(!matcher.matches())
 				continue; // Not a valid header line, skip it
+			if(blockedHeaders.contains(line.split(":")[0])){
+				continue; // Header should be ignored according to the policies
+			}
 			headersMap.put(matcher.group(1).toLowerCase(), matcher.group(2).toLowerCase());
+
 		}
 		System.out.println("## FINISHED READING HEADERS ##");
-		
+
 	}
 
 	/**
@@ -133,19 +139,19 @@ public class HTTPRequest {
 			line = input.readLine();
 			if(line == null)
 				return 500;
-			
+
 			if(!line.isEmpty())
 				break;
 		}
 		System.out.println(line);
-		
+
 		Matcher matcher = requestLine.matcher(line);
-		
+
 		if(!matcher.matches()) {
 			System.out.println("WARN: Failed to match the method line. returning 400!");
 			return 400;
 		}
-		
+
 		String methodString = matcher.group(1).toUpperCase();
 		try {
 			method = Method.valueOf(methodString);
@@ -154,16 +160,16 @@ public class HTTPRequest {
 			System.out.println("Not supported method");
 			return 501;
 		}
-		
+
 		path = matcher.group(2);
 		query = matcher.group(4);
 		version = matcher.group(5).toUpperCase();
-		
+
 		firstLine = line;
-		
+
 		return 0;		
 	}
-	
+
 	public Method getMethod() {
 		return method;
 	}
@@ -172,7 +178,7 @@ public class HTTPRequest {
 	public HashMap<String, String> getHeaders() {
 		return headersMap;
 	}
-	
+
 	public String getFirstLine() {
 		return firstLine;
 	}

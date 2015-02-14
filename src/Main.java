@@ -24,13 +24,15 @@ public class Main {
 	private static Set<String> blockResource = new HashSet<String>();
 	private static Set<String> blockIpMask = new HashSet<String>();
 	private static Set<String> whiteList = new HashSet<String>();
+	private static Set<String> blockedHeaders = new HashSet<String>();
 	private static PrintWriter writer;
 
-	public static String policyFile;
+	public static String policiesFile;
 	public final static String BLOCK_SITE = "block-site";
 	public final static String BLOCK_RESOURCE = "block-resource";
 	public final static String BLOCK_IP_MASK = "block-ip-mask";
 	public final static String WHITE_LIST = "white-list";
+	public final static String BLOCK_HEADERS = "block-header";
 	public static File logFile;
 	
 	public static void main(String[] args) {
@@ -38,7 +40,7 @@ public class Main {
 			System.out.println("USAGE: java proxySever [policy_file]");
 			System.exit(1);
 		}
-		policyFile = args[0];
+		policiesFile = args[0];
 		try {
 			BufferedReader input = new BufferedReader(new FileReader(CONFIG_FILE));
 			
@@ -118,9 +120,10 @@ public class Main {
 		blockResource.clear();
 		blockSite.clear();
 		whiteList.clear();
+		blockedHeaders.clear();
 		policies.clear();
 		try {
-			BufferedReader input = new BufferedReader(new FileReader(policyFile));
+			BufferedReader input = new BufferedReader(new FileReader(policiesFile));
 			String line = null;
 			String[] parsedLine;
 			while((line = input.readLine()) != null) {
@@ -142,6 +145,9 @@ public class Main {
 				case WHITE_LIST:
 					whiteList.add(parsedLine[1].replaceAll("\"", "").toLowerCase());
 					break;
+				case BLOCK_HEADERS:
+					blockedHeaders.add(parsedLine[1].replaceAll("\"", "").toLowerCase());
+					break;
 				default:
 					System.out.println("ERROR: The policy rule: '" + parsedLine[0] + "' does not exists");
 				}
@@ -151,9 +157,10 @@ public class Main {
 			policies.put(BLOCK_RESOURCE, blockResource);
 			policies.put(BLOCK_IP_MASK, blockIpMask);
 			policies.put(WHITE_LIST, whiteList);
+			policies.put(BLOCK_HEADERS, blockedHeaders);
 			
 		} catch (FileNotFoundException e) {
-			System.out.println("ERROR: File '" + policyFile + "' was not found! Exiting program.");
+			System.out.println("ERROR: File '" + policiesFile + "' was not found! Exiting program.");
 			System.exit(1);
 		} catch (IOException e) {
 			System.out.println("ERROR: Failed to read the policy file! Exiting program.");
@@ -172,17 +179,16 @@ public class Main {
 			return false;	
 		}
 		policyAndBody[1] = policyAndBody[1].replaceAll("\"", "");
-		if(!policyAndBody[0].equals(Main.BLOCK_SITE) && !policyAndBody[0].equals(Main.BLOCK_RESOURCE) && 
-				!policyAndBody[0].equals(Main.BLOCK_IP_MASK) && !policyAndBody[0].equals(Main.WHITE_LIST) ){
+		if(!policyAndBody[0].equals(BLOCK_SITE) && !policyAndBody[0].equals(BLOCK_RESOURCE) && 
+				!policyAndBody[0].equals(BLOCK_IP_MASK) && !policyAndBody[0].equals(WHITE_LIST) && !policyAndBody[0].equals(BLOCK_HEADERS)){
 			return false;
 		}
-		else if(policyAndBody[0].equals(Main.BLOCK_RESOURCE) && !policyAndBody[1].matches("\\..*")){
+		else if(policyAndBody[0].equals(BLOCK_RESOURCE) && !policyAndBody[1].matches("\\..*")){
 			return false;
 		}
-		else if(policyAndBody[0].equals(Main.BLOCK_IP_MASK) && !policyAndBody[1].matches("[0-9][0-9]?[0-9]?\\.[0-9][0-9]?[0-9]?\\.[0-9][0-9]?[0-9]?\\.[0-9][0-9]?[0-9]?/[0-9][0-9]?")){
+		else if(policyAndBody[0].equals(BLOCK_IP_MASK) && !policyAndBody[1].matches("[0-9][0-9]?[0-9]?\\.[0-9][0-9]?[0-9]?\\.[0-9][0-9]?[0-9]?\\.[0-9][0-9]?[0-9]?/[0-9][0-9]?")){
 			return false;
 		}
-		
 		return true;
 	}
 	

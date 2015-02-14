@@ -136,6 +136,7 @@ public class HTTPResponse {
 		body = body.replaceAll("%0D%0A" , ",");
 		
 		String[] allNewPolicies = body.split(",");
+		//Check the new policies Entered by the user
 		for(String newPolicy : allNewPolicies){
 			if(!Main.isPolicyValid(newPolicy)){
 				generateEditPolicyResponse(policies, "The policies you entered were not valid");
@@ -143,16 +144,17 @@ public class HTTPResponse {
 			}
 		}
 		
-		File policeiesFile = new File(Main.policyFile);
+		//Write the new policies to the policies file
+		File policeiesFile = new File(Main.policiesFile);
 		PrintWriter writer = new PrintWriter(policeiesFile);
 		for(String newPolicy : allNewPolicies){
 			writer.append(newPolicy + CRLF);
 		}
 		writer.flush();
 		writer.close();
-		
+		//Updates the policies Map
 		Main.readPolicyFile();
-	
+		
 		generateEditPolicyResponse(policies, "");
 	}
 
@@ -259,7 +261,7 @@ public class HTTPResponse {
 
 		sendResponse(OK, message.toString(), true);
 	}
-	private void handleOptionRequest() throws IOException {	
+	private void handleOptionRequest() throws IOException {
 
 		StringBuilder message = new StringBuilder();
 		Method[] methodsArr = Method.values();

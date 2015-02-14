@@ -53,7 +53,7 @@ public class HTTPConnection implements Runnable {
 					continue;
 				}
 				
-				request.readHeaders(input);
+				request.readHeaders(input , policies.get(Main.BLOCK_HEADERS));
 				
 				if(request.checkVersion()) {
 					new HTTPResponse(output).generateSpecificResponse(400);
