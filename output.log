@@ -1,4 +1,4 @@
-Time of blocking: 14\02\2015 13:27:46
+Time of blocking: 14\02\2015 13:41:07
 HTTP request:
 GET http://www.google.com/ HTTP/1.1
   accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
@@ -8,5 +8,5 @@ GET http://www.google.com/ HTTP/1.1
   accept-encoding: gzip, deflate
   user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
   accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Rule Blocked the request: Not in White List "http://www.google.com/"
+Rule Blocked the request:  "http://www.google.com/"Not in White List
 

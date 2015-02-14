@@ -232,7 +232,7 @@ public class ProxyHandler {
 				return true;
 			}
 		}
-		writeBlockedSiteToFile(request , "Not in White List" + " \"" + request.getPath() + "\"", writer);
+		writeBlockedSiteToFile(request , " \"" + request.getPath() + "\"" + " Not in White List" , writer);
 		return false;
 	}
 
