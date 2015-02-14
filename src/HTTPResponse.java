@@ -163,10 +163,6 @@ public class HTTPResponse {
 	private void sendResponse(String status, String body, boolean hasBody) throws IOException {
 		System.out.println("##	PRINTING RESPOSNE	##");
 
-		if(status.equals(MOVED_PERMANENTLY)) {
-			headersMap.put("Location", "/" + defaultPage);
-		}
-
 		headersMap.put(CONTENT_LENGTH, String.valueOf(body.length()));
 		headersMap.put(CONTENT_TYPE, "text/html");
 		System.out.print(status);
