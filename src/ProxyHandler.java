@@ -20,6 +20,7 @@ public class ProxyHandler {
 	private static final String CRLF = "\r\n";
 	private final static String POLICY_EDIT_SITE = "http://content-proxy/policies";
 	private final static String SEE_LOG_SITE = "http://content-proxy/logs";
+	private final static String NEW_POLICIES= "http://content-proxy/new_policies";
 	private static final int BUFFER_SIZE = 1024;	
 
 	private HTTPRequest request;
@@ -51,7 +52,7 @@ public class ProxyHandler {
 	public boolean isRequestLegal(Map<String, Set<String>> policies, PrintWriter writer) {
 		//If the white list is not empty then Check if the site is in the list
 		if(policies.get(Main.WHITE_LIST).size() > 0){
-			return isSiteInWhitlist(policies);
+			return isSiteInWhitlist(policies , writer);
 		}
 		if(isSiteBlock(policies, writer)){
 			return false;
@@ -66,14 +67,13 @@ public class ProxyHandler {
 	}
 
 	public void connectToHost() throws UnknownHostException, IOException {
-
 		destination = new Socket(host, 80);
 		output = new DataOutputStream(destination.getOutputStream());
 		input = new DataInputStream(destination.getInputStream());
 	}
 
 	public void sendRequest() throws IOException {
-		if(isEditPolicy() || isSeeLog()){
+		if(isEditPolicy() || isSeeLog() || isNewPolicies()){
 			return;
 		}
 		System.out.println(myCounter + " | ### Sending request from proxy ###");
@@ -93,12 +93,11 @@ public class ProxyHandler {
 		if(body != null) {
 			output.write(body.getBytes());
 		}
-
 		System.out.println(myCounter + " | ### Finished sending request from proxy ###");
 	}
 
 	public void getResponse(DataOutputStream clientOutputStream) throws IOException {
-		if(isEditPolicy() || isSeeLog()){
+		if(isEditPolicy() || isSeeLog() || isNewPolicies()){
 			return;
 		}
 
@@ -193,17 +192,31 @@ public class ProxyHandler {
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Check if the request asks to edit the existing policies
+	 * @return
+	 */
+	public boolean isNewPolicies() {
+		if(request.getPath().toLowerCase().equals(NEW_POLICIES)){
+			return true;
+		}
+		return false;
+	}
+
+
 	public String getRuleBlocked() {
 		return ruleBlocked;
 	}
 
-	private boolean isSiteInWhitlist(Map<String, Set<String>> policies) {
-		if(policies.get(Main.WHITE_LIST).contains(request.getPath())){
-			return true;
-		} else {
-			return false;
+	private boolean isSiteInWhitlist(Map<String, Set<String>> policies, PrintWriter writer) {
+		for(String site : policies.get(Main.WHITE_LIST)){
+			if(request.getPath().contains(site)){
+				return true;
+			}
 		}
+		writeBlockedSiteToFile(request , Main.WHITE_LIST + " \"" + request.getPath() + "\"", writer);
+		return false;
 	}
 
 	private boolean isSiteBlock(Map<String, Set<String>> policies, PrintWriter writer) {
@@ -250,7 +263,7 @@ public class ProxyHandler {
 		}
 		return false;
 	}
-	
+
 	private byte[] constructByteArrayFromIp(String ip) {
 		String[] strArray = ip.split("\\.");
 		if(strArray.length != 4) {
@@ -274,7 +287,7 @@ public class ProxyHandler {
 		for(int i = 0; i < 4 && mask > 0; i++, mask -= 8) {
 			if(mask < 8) {
 				destinationIp[i] >>>= (8 - mask);
-				illegalIp[i] >>>= (8 - mask);
+			illegalIp[i] >>>= (8 - mask);
 			}
 			if(destinationIp[i] != illegalIp[i]) {
 				return false;

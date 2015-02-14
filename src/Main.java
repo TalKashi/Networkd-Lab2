@@ -15,7 +15,6 @@ import java.util.Set;
  */
 public class Main {
 	private final static String CONFIG_FILE = "config.ini";
-	private static String policyFile;
 	private static String defaultPage = null;
 	private static int port = 0;
 	private static int maxThreads = 0;
@@ -27,6 +26,7 @@ public class Main {
 	private static Set<String> whiteList = new HashSet<String>();
 	private static PrintWriter writer;
 
+	public static String policyFile;
 	public final static String BLOCK_SITE = "block-site";
 	public final static String BLOCK_RESOURCE = "block-resource";
 	public final static String BLOCK_IP_MASK = "block-ip-mask";
@@ -113,7 +113,8 @@ public class Main {
 		
 	}
 
-	private static void readPolicyFile() {
+	public static Map<String, Set<String>> readPolicyFile() {
+		policies = new HashMap<String , Set<String>>();
 		try {
 			BufferedReader input = new BufferedReader(new FileReader(policyFile));
 			String line = null;
@@ -147,6 +148,8 @@ public class Main {
 			policies.put(BLOCK_IP_MASK, blockIpMask);
 			policies.put(WHITE_LIST, whiteList);
 			
+			return policies;
+			
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: File '" + policyFile + "' was not found! Exiting program.");
 			System.exit(1);
@@ -154,5 +157,6 @@ public class Main {
 			System.out.println("ERROR: Failed to read the policy file! Exiting program.");
 			System.exit(1);
 		}
+		return policies;
 	}
 }

@@ -83,9 +83,14 @@ public class HTTPConnection implements Runnable {
 					new HTTPResponse(output).generateSeeLogResponse(policies);
 					continue;
 				}
+				if(proxyHandler.isNewPolicies()){
+					new HTTPResponse(output).editPoliciesAndGenerateResponse(policies , request , this);
+					continue;
+				}
+				
 				
 				if(proxyHandler.isEditPolicy()){
-					new HTTPResponse(output).generateEditPolicyResponse(policies);
+					new HTTPResponse(output).generateEditPolicyResponse(policies , "");
 					continue;
 				}
 				
@@ -125,6 +130,10 @@ public class HTTPConnection implements Runnable {
 		}
 		System.out.println(myCounter + " | ### Connection is closing ###");
 		closeConnection();
+	}
+	
+	public void setPolicies(Map<String, Set<String>> policies) {
+		this.policies = policies;
 	}
 
 	private void closeConnection() {
