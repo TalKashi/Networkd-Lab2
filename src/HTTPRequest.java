@@ -12,7 +12,7 @@ public class HTTPRequest {
 	private static final String HTTP_11 = "HTTP/1.1";
 	private static final String CONTENT_LENGTH = "content-length";
 
-	private static Pattern requestLine = Pattern.compile("(\\S+)\\s+([^\\s?]+)(\\?(\\S+))?\\s+(HTTP/[0-9.]+)");
+	private static Pattern requestLine = Pattern.compile("(\\S+)\\s+([^\\s?]+)(\\?(\\S+))?\\s+(http/[0-9.]+)");
 	private static Pattern headerLine = Pattern.compile("([^:]+):\\s*(.*)");
 	private static Pattern queryLine = Pattern.compile("([^&=]+)=([^&=]+)");
 
@@ -144,7 +144,7 @@ public class HTTPRequest {
 		}
 		System.out.println(line);
 
-		Matcher matcher = requestLine.matcher(line);
+		Matcher matcher = requestLine.matcher(line.toLowerCase());
 
 		if(!matcher.matches()) {
 			System.out.println("WARN: Failed to match the method line. returning 400!");
