@@ -126,7 +126,7 @@ public class HTTPResponse {
 	 * @param httpConnection
 	 * @throws IOException
 	 */
-	public void editPoliciesAndGenerateResponse(Map<String, Set<String>> policies, HTTPRequest request, HTTPConnection httpConnection) throws IOException {
+	public void editPoliciesAndGenerateResponse(Map<String, Set<String>> policies, HTTPRequest request) throws IOException {
 
 		String body = request.getBody();
 		body = body.substring(9, body.length());
@@ -158,7 +158,7 @@ public class HTTPResponse {
 		generateEditPolicyResponse(policies, "");
 	}
 
-	public void generateResposne() throws IOException {
+	/*	public void generateResposne() throws IOException {
 		switch(request.getMethod()) {
 		case OPTIONS:
 			handleOptionRequest();
@@ -231,7 +231,7 @@ public class HTTPResponse {
 
 		html += "</table></BODY></HTML>";
 		return html;
-	}
+	}*/
 
 	private ContentType checkFileExtension(String extension) {
 		switch(extension) {

@@ -1,3 +1,4 @@
+import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -80,7 +81,7 @@ public class HTTPConnection implements Runnable {
 					continue;
 				}
 				if(proxyHandler.isNewPolicies()){
-					new HTTPResponse(output).editPoliciesAndGenerateResponse(policies , request , this);
+					new HTTPResponse(output).editPoliciesAndGenerateResponse(policies , request);
 					continue;
 				}
 				
@@ -89,12 +90,11 @@ public class HTTPConnection implements Runnable {
 					new HTTPResponse(output).generateEditPolicyResponse(policies , "");
 					continue;
 				}
-				
 				if(!proxyHandler.isRequestLegal(policies , writer)) {
 					new HTTPResponse(output).generateAccessDeniedResponse(proxyHandler.getRuleBlocked());
 					continue;
 				}
-				
+								
 				proxyHandler.connectToHost();
 				
 				proxyHandler.sendRequest();

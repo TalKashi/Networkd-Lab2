@@ -96,10 +96,6 @@ public class ProxyHandler {
 	}
 
 	public void getResponse(DataOutputStream clientOutputStream) throws IOException {
-		if(isEditPolicy() || isSeeLog() || isNewPolicies()){
-			return;
-		}
-
 		System.out.println(myCounter + " | ### Getting response from destination host and sending to client ###");
 		boolean foundChunkedOrContentLength = false;
 		boolean firstLine = true;
@@ -128,9 +124,15 @@ public class ProxyHandler {
 				foundChunkedOrContentLength = checkForContentLengthOrChunked(line);
 			}
 		}
+		
 		clientOutputStream.writeBytes(CRLF);
+		
+		if(request.getMethod().equals(Method.HEAD)){
+			clientOutputStream.writeBytes(CRLF);
+			clientOutputStream.flush();
+		}
 		int bufferSize = 0;
-
+		
 		try {
 			if(contentLength != null)
 				bufferSize = Integer.parseInt(contentLength);
