@@ -131,10 +131,6 @@ public class HTTPConnection implements Runnable {
 		System.out.println(myCounter + " | ### Connection is closing ###");
 		closeConnection();
 	}
-	
-	public void setPolicies(Map<String, Set<String>> policies) {
-		this.policies = policies;
-	}
 
 	private void closeConnection() {
 		try {

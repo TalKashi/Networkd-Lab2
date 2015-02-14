@@ -1,0 +1,12 @@
+Time of blocking: 14\02\2015 13:27:46
+HTTP request:
+GET http://www.google.com/ HTTP/1.1
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  cookie: nid=67=jgauikeaok_v_lzw7ys-r0mgrcdxrtxulznon5myxokwdtprrx7yiehhtshkegsozcjr6tcbgo-l1x8_bx3odspx23a1ven-zgd3-am-nyqgajz0ijkdzp8xtyzzek3w
+  host: www.google.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Rule Blocked the request: Not in White List "http://www.google.com/"
+

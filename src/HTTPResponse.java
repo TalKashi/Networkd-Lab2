@@ -121,10 +121,11 @@ public class HTTPResponse {
 		body = body.replaceAll("%22", "\"");
 		body = body.replaceAll("%2F", "/");
 		body = body.replaceAll("%0D%0A" , ",");
+		
 		String[] allNewPolicies = body.split(",");
 		for(String newPolicy : allNewPolicies){
 			if(!isPolicyValid(newPolicy)){
-				generateEditPolicyResponse(policies, "The Policies You entered were not valid");
+				generateEditPolicyResponse(policies, "The policies you entered were not valid");
 				return;
 			}
 		}
@@ -136,30 +137,34 @@ public class HTTPResponse {
 		}
 		writer.flush();
 		writer.close();
-		Map<String, Set<String>> newPolicies = Main.readPolicyFile();
-		httpConnection.setPolicies(newPolicies);		
-		
-		generateEditPolicyResponse(newPolicies, "");
+		Main.readPolicyFile();
+	
+		generateEditPolicyResponse(policies, "");
 	}
 
 	private boolean isPolicyValid(String policy) {
+		if(policy.replaceAll(" ", "").equals("")){
+			return true;
+		}
 		String[] policyAndBody = policy.split(" ");
 		if(policyAndBody.length != 2){
 			return false;
 		}else if(!policyAndBody[1].startsWith("\"") || !policyAndBody[1].endsWith("\"")){
 			return false;	
 		}
-		policyAndBody[1].replaceAll("\"", "");
+		policyAndBody[1] = policyAndBody[1].replaceAll("\"", "");
 		if(!policyAndBody[0].equals(Main.BLOCK_SITE) && !policyAndBody[0].equals(Main.BLOCK_RESOURCE) && 
 				!policyAndBody[0].equals(Main.BLOCK_IP_MASK) && !policyAndBody[0].equals(Main.WHITE_LIST) ){
 			return false;
 		}
-		//TODO: End this function
-		/*else if(policyAndBody[0].equals(Main.BLOCK_RESOURCE) && !policyAndBody[1].matches("\\..")){
+		//TODO: End this functions
+		else if(policyAndBody[0].equals(Main.BLOCK_RESOURCE) && !policyAndBody[1].matches("\\..*")){
 			return false;
-		}else if(policyAndBody[0].equals(Main.BLOCK_IP_MASK) && !policyAndBody[1].matches("[0-9]}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}/[0-9]{1,2}")){
+		}
+		else if(policyAndBody[0].equals(Main.BLOCK_IP_MASK) && !policyAndBody[1].matches("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+")){
 			return false;
-		}*/
+		}
+		
 		return true;
 	}
 

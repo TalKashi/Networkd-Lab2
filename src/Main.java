@@ -113,8 +113,12 @@ public class Main {
 		
 	}
 
-	public static Map<String, Set<String>> readPolicyFile() {
-		policies = new HashMap<String , Set<String>>();
+	public static void readPolicyFile() {
+		blockIpMask.clear();
+		blockResource.clear();
+		blockSite.clear();
+		whiteList.clear();
+		policies.clear();
 		try {
 			BufferedReader input = new BufferedReader(new FileReader(policyFile));
 			String line = null;
@@ -148,8 +152,6 @@ public class Main {
 			policies.put(BLOCK_IP_MASK, blockIpMask);
 			policies.put(WHITE_LIST, whiteList);
 			
-			return policies;
-			
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: File '" + policyFile + "' was not found! Exiting program.");
 			System.exit(1);
@@ -157,6 +159,5 @@ public class Main {
 			System.out.println("ERROR: Failed to read the policy file! Exiting program.");
 			System.exit(1);
 		}
-		return policies;
 	}
 }

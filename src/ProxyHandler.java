@@ -52,7 +52,7 @@ public class ProxyHandler {
 	public boolean isRequestLegal(Map<String, Set<String>> policies, PrintWriter writer) {
 		//If the white list is not empty then Check if the site is in the list
 		if(policies.get(Main.WHITE_LIST).size() > 0){
-			return isSiteInWhitlist(policies , writer);
+			return isSiteInWhitelist(policies , writer);
 		}
 		if(isSiteBlock(policies, writer)){
 			return false;
@@ -209,13 +209,13 @@ public class ProxyHandler {
 		return ruleBlocked;
 	}
 
-	private boolean isSiteInWhitlist(Map<String, Set<String>> policies, PrintWriter writer) {
+	private boolean isSiteInWhitelist(Map<String, Set<String>> policies, PrintWriter writer) {
 		for(String site : policies.get(Main.WHITE_LIST)){
 			if(request.getPath().contains(site)){
 				return true;
 			}
 		}
-		writeBlockedSiteToFile(request , Main.WHITE_LIST + " \"" + request.getPath() + "\"", writer);
+		writeBlockedSiteToFile(request , "Not in White List" + " \"" + request.getPath() + "\"", writer);
 		return false;
 	}
 
@@ -287,7 +287,7 @@ public class ProxyHandler {
 		for(int i = 0; i < 4 && mask > 0; i++, mask -= 8) {
 			if(mask < 8) {
 				destinationIp[i] >>>= (8 - mask);
-			illegalIp[i] >>>= (8 - mask);
+				illegalIp[i] >>>= (8 - mask);
 			}
 			if(destinationIp[i] != illegalIp[i]) {
 				return false;
