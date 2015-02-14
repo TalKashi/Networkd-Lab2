@@ -160,16 +160,14 @@ public class ProxyHandler {
 		} else {
 			// Read until end of stream
 			System.out.println(myCounter + " | ### Unkown body length ###");
-			if(responseCode != null && !responseCode.equals("304")) {
-				byte buffer[] = new byte[BUFFER_SIZE];
-				int len, totalRead = 0;
-				while ((len = input.read(buffer, 0, BUFFER_SIZE)) != -1) {
-					totalRead += len;
-					System.out.println(myCounter + " | DEBUG PRINT: Read total of " + len + " bytes");
-					clientOutputStream.write(buffer, 0, len);
-				}
-				System.out.println(myCounter + " | DEBUG PRINT: Finished reading after " + totalRead + " bytes");
-			}			
+			byte buffer[] = new byte[BUFFER_SIZE];
+			int len, totalRead = 0;
+			while (input.available() > 0 && (len = input.read(buffer, 0, BUFFER_SIZE)) != -1) {
+				totalRead += len;
+				System.out.println(myCounter + " | DEBUG PRINT: Read total of " + len + " bytes");
+				clientOutputStream.write(buffer, 0, len);
+			}
+			System.out.println(myCounter + " | DEBUG PRINT: Finished reading after " + totalRead + " bytes");
 		}
 		clientOutputStream.flush();
 		System.out.println(myCounter + " | ### Finished getting response from destination host and sending to client ###");
