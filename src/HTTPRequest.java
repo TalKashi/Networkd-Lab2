@@ -95,7 +95,7 @@ public class HTTPRequest {
 				parametersMap.put(key, URLDecoder.decode(value, "UTF-8"));
 			} catch (UnsupportedEncodingException e) {
 				// Not supposer to happen
-				System.out.println("WARN: Failed to parse one the the parameters in the query.");
+				System.out.println("WARN: Failed to parse one of the parameters in the query.");
 				e.printStackTrace();
 			}
 		}
