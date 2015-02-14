@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 public class HTTPRequest {
 
 	private static final String HTTP_11 = "HTTP/1.1";
-	private static final String HTTP_10 = "HTTP/1.0";
 	private static final String CONTENT_LENGTH = "content-length";
 
 	private static Pattern requestLine = Pattern.compile("(\\S+)\\s+([^\\s?]+)(\\?(\\S+))?\\s+(HTTP/[0-9.]+)");

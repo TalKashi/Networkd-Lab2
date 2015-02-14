@@ -77,7 +77,7 @@ public class HTTPConnection implements Runnable {
 				ProxyHandler proxyHandler = new ProxyHandler(request, myCounter);
 				
 				if(proxyHandler.isSeeLog()){
-					new HTTPResponse(output).generateSeeLogResponse(policies);
+					new HTTPResponse(output).generateSeeLogResponse(policies , request);
 					continue;
 				}
 				if(proxyHandler.isNewPolicies()){
@@ -87,7 +87,7 @@ public class HTTPConnection implements Runnable {
 				
 				
 				if(proxyHandler.isEditPolicy()){
-					new HTTPResponse(output).generateEditPolicyResponse(policies , "");
+					new HTTPResponse(output).generateEditPolicyResponse(policies , "" , request);
 					continue;
 				}
 				if(!proxyHandler.isRequestLegal(policies , writer)) {

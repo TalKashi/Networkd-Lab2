@@ -86,7 +86,10 @@ public class HTTPResponse {
 		sendResponse(ACCESS_DENIED, String.format(ACCESS_DENIED_BODY, ACCESS_DENIED_MSG, rule), true);
 	}
 
-	public void generateSeeLogResponse(Map<String, Set<String>> policies) throws IOException {
+	public void generateSeeLogResponse(Map<String, Set<String>> policies , HTTPRequest request) throws IOException {
+		if(specialMethod(request)){
+			return;
+		}
 		String body = "<html><h1>See Log</h1>";
 		String line = null;
 		BufferedReader input = new BufferedReader(new FileReader(ProxyServer.logFile));
@@ -96,7 +99,6 @@ public class HTTPResponse {
 		input.close();
 		body += "</html>";
 		sendResponse(OK, body, true);
-
 	}
 
 	/**
@@ -105,7 +107,10 @@ public class HTTPResponse {
 	 * @param msg
 	 * @throws IOException
 	 */
-	public void generateEditPolicyResponse(Map<String, Set<String>> policies , String msg) throws IOException {
+	public void generateEditPolicyResponse(Map<String, Set<String>> policies , String msg , HTTPRequest request) throws IOException {
+		if(specialMethod(request)){
+			return;
+		}
 		String body = "<html><h1>Edit Policies</h1><span  style='color:#ff0000'>" + msg +"</span><form action='/new_policies' method='POST' >"
 				+ "<textarea name='textarea' rows='10' cols='50'>"; 
 		for(String policy : policies.keySet()){
@@ -129,23 +134,23 @@ public class HTTPResponse {
 	 * @throws IOException
 	 */
 	public void editPoliciesAndGenerateResponse(Map<String, Set<String>> policies, HTTPRequest request) throws IOException {
-
+	
 		String body = request.getBody();
 		body = body.substring(9, body.length());
 		body = body.replaceAll("\\+", " ");
 		body = body.replaceAll("%22", "\"");
 		body = body.replaceAll("%2F", "/");
 		body = body.replaceAll("%0D%0A" , ",");
-
+	
 		String[] allNewPolicies = body.split(",");
 		//Check the new policies Entered by the user
 		for(String newPolicy : allNewPolicies){
 			if(!ProxyServer.isPolicyValid(newPolicy)){
-				generateEditPolicyResponse(policies, "The policies you entered were not valid");
+				generateEditPolicyResponse(policies, "The policies you entered were not valid" , request);
 				return;
 			}
 		}
-
+	
 		//Write the new policies to the policies file
 		File policeiesFile = new File(ProxyServer.policiesFile);
 		PrintWriter writer = new PrintWriter(policeiesFile);
@@ -156,9 +161,46 @@ public class HTTPResponse {
 		writer.close();
 		//Updates the policies Map
 		ProxyServer.readPolicyFile();
+	
+		generateEditPolicyResponse(policies, "" , request);
+	}
 
-		generateEditPolicyResponse(policies, "");
-	}	
+	private boolean specialMethod(HTTPRequest request ) throws IOException {
+		switch(request.getMethod()) {
+		case OPTIONS:
+			handleOptionRequest();
+			return true;
+		case TRACE:
+			handleTraceRequest(request );
+			return true;
+		default:
+			return false;
+		}
+	}
+	
+	private void handleTraceRequest(HTTPRequest request) throws IOException {
+		StringBuilder message = new StringBuilder();
+
+		message.append(request.getFirstLine() + CRLF);
+		HashMap<String, String> requestHeaders = request.getHeaders();
+		for(String key : requestHeaders.keySet()) {
+			message.append(key + ": " + requestHeaders.get(key) + CRLF);
+		}
+		sendResponse(OK, message.toString(), true);
+	}
+	
+	private void handleOptionRequest() throws IOException{
+		StringBuilder message = new StringBuilder();
+		Method[] methodsArr = Method.values();
+		for(int i = 0; i < methodsArr.length - 1; i++) {
+			message.append(methodsArr[i].toString() + ", ");
+		}
+		message.append(methodsArr[methodsArr.length - 1].toString());
+	
+		headersMap.put("Allow", message.toString());
+	
+		sendResponse(OK, "", false);
+	}
 
 	private void sendResponse(String status, String body, boolean hasBody) throws IOException {
 		System.out.println("##	PRINTING RESPOSNE	##");
