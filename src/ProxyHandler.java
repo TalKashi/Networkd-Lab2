@@ -50,6 +50,7 @@ public class ProxyHandler {
 	 * @throws UnknownHostException 
 	 */
 	public boolean isRequestLegal(Map<String, Set<String>> policies, PrintWriter writer) {
+		setHostAndPath();
 		//If the white list is not empty then Check if the site is in the list
 		if(policies.get(Main.WHITE_LIST).size() > 0){
 			return isSiteInWhitelist(policies , writer);
@@ -257,7 +258,6 @@ public class ProxyHandler {
 	}
 
 	private boolean isIpBlocked(Map<String, Set<String>> policies, PrintWriter writer) {
-		setHostAndPath();
 		InetAddress address;
 		byte[] ip;
 		int mask;
