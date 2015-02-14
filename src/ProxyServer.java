@@ -106,7 +106,7 @@ public class ProxyServer {
 		
 		WebServer server;
 		try {
-			server = new WebServer(root, defaultPage, port, maxThreads , policies , writer);
+			server = new WebServer(port, maxThreads , policies , writer);
 			server.run();
 		} catch(IOException e) {
 			System.out.println("ERROR: Failed to create ServerSocket! Exiting program.");

@@ -1,7 +1,5 @@
-import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -16,16 +14,12 @@ public class HTTPConnection implements Runnable {
 	private Socket socket;
 	private BufferedReader input;
 	private DataOutputStream output;
-	private File root;
-	private String defaultPage;
 	private Map<String , Set<String>> policies;
 	private int myCounter;
 	private PrintWriter writer;
 	
-	public HTTPConnection(Socket socket, File root, String defaultPage, Map<String, Set<String>> policies, PrintWriter writer) throws IOException {
+	public HTTPConnection(Socket socket, Map<String, Set<String>> policies, PrintWriter writer) throws IOException {
 		this.socket = socket;
-		this.root = root;
-		this.defaultPage = defaultPage;
 		this.policies = policies;
 		this.writer = writer;
 		input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
