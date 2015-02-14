@@ -298,7 +298,7 @@ public class ProxyHandler {
 	private void setHostAndPath() {
 		String pathFromRequest = request.getPath().toLowerCase() + request.getQuery();
 		System.out.println(myCounter + " | DEBUG: First line: " + pathFromRequest);
-		Pattern pattern = Pattern.compile("http://([^/]*)(/.*)");
+		Pattern pattern = Pattern.compile("http://([^/]*)(/?.*)");
 		Matcher matcher = pattern.matcher(pathFromRequest);
 		if(matcher.matches()) {
 			host = matcher.group(1);
