@@ -98,28 +98,11 @@ public class ProxyHandler {
 	public void getResponse(DataOutputStream clientOutputStream) throws IOException {
 		System.out.println(myCounter + " | ### Getting response from destination host and sending to client ###");
 		boolean foundChunkedOrContentLength = false;
-		boolean firstLine = true;
-
 		String line;
-
-		// For parsing first line
-		String version = null;
-		String responseCode= null;
-		String response = null;
 		
 		while((line = readLine()) != null && !line.isEmpty()) {
 			System.out.println(line);
 			clientOutputStream.writeBytes(line + CRLF);
-			if(firstLine) {
-				Pattern pattern = Pattern.compile("(http/[0-9.]+)\\s+([0-9]+)\\s+(.+)");
-				Matcher matcher = pattern.matcher(line.toLowerCase());
-				if(matcher.matches()) {
-					version = matcher.group(1);
-					responseCode = matcher.group(2);
-					response = matcher.group(3);
-				}
-				firstLine = false;
-			}
 			if(!foundChunkedOrContentLength) {
 				foundChunkedOrContentLength = checkForContentLengthOrChunked(line);
 			}
