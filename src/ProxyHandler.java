@@ -78,8 +78,6 @@ public class ProxyHandler {
 		}
 		System.out.println(myCounter + " | ### Sending request from proxy ###");
 
-		// TODO: Check if need to change request path
-		//output.writeBytes(request.getFirstLine() + CRLF);
 		output.writeBytes(request.getMethod().toString() + " " + path + " " + request.getVersion() + CRLF);
 		System.out.println(myCounter + " | DEBUG PRINT: " + request.getMethod().toString() + " " + path + " " + request.getVersion());
 
@@ -102,13 +100,29 @@ public class ProxyHandler {
 		}
 
 		System.out.println(myCounter + " | ### Getting response from destination host and sending to client ###");
-		// TODO: Support chunked response?
 		boolean foundChunkedOrContentLength = false;
+		boolean firstLine = true;
 
 		String line;
+
+		// For parsing first line
+		String version = null;
+		String responseCode= null;
+		String response = null;
+		
 		while((line = readLine()) != null && !line.isEmpty()) {
 			System.out.println(line);
 			clientOutputStream.writeBytes(line + CRLF);
+			if(firstLine) {
+				Pattern pattern = Pattern.compile("(http/[0-9.]+)\\s+([0-9]+)\\s+(.+)");
+				Matcher matcher = pattern.matcher(line.toLowerCase());
+				if(matcher.matches()) {
+					version = matcher.group(1);
+					responseCode = matcher.group(2);
+					response = matcher.group(3);
+				}
+				firstLine = false;
+			}
 			if(!foundChunkedOrContentLength) {
 				foundChunkedOrContentLength = checkForContentLengthOrChunked(line);
 			}
@@ -143,14 +157,16 @@ public class ProxyHandler {
 		} else {
 			// Read until end of stream
 			System.out.println(myCounter + " | ### Unkown body length ###");
-			byte buffer[] = new byte[BUFFER_SIZE];
-			int len, totalRead = 0;
-			while ((len = input.read(buffer, 0, BUFFER_SIZE)) != -1) {
-				totalRead += len;
-				System.out.println(myCounter + " | DEBUG PRINT: Read total of " + len + " bytes");
-				clientOutputStream.write(buffer, 0, len);
-			}
-			System.out.println(myCounter + " | DEBUG PRINT: Finished reading after " + totalRead + " bytes");
+			if(responseCode != null && !responseCode.equals("304")) {
+				byte buffer[] = new byte[BUFFER_SIZE];
+				int len, totalRead = 0;
+				while ((len = input.read(buffer, 0, BUFFER_SIZE)) != -1) {
+					totalRead += len;
+					System.out.println(myCounter + " | DEBUG PRINT: Read total of " + len + " bytes");
+					clientOutputStream.write(buffer, 0, len);
+				}
+				System.out.println(myCounter + " | DEBUG PRINT: Finished reading after " + totalRead + " bytes");
+			}			
 		}
 		clientOutputStream.flush();
 		System.out.println(myCounter + " | ### Finished getting response from destination host and sending to client ###");
@@ -298,7 +314,7 @@ public class ProxyHandler {
 
 	private void setHostAndPath() {
 		String pathFromRequest = request.getPath().toLowerCase() + request.getQuery();
-		System.out.println(myCounter + " | DEBUG: Frist line: " + pathFromRequest);
+		System.out.println(myCounter + " | DEBUG: First line: " + pathFromRequest);
 		Pattern pattern = Pattern.compile("http://([^/]*)(/.*)");
 		Matcher matcher = pattern.matcher(pathFromRequest);
 		if(matcher.matches()) {
