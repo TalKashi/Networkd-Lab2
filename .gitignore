@@ -57,3 +57,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+blocked-Sites.txt
+output.log
+policy.ini

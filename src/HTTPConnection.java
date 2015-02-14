@@ -69,11 +69,9 @@ public class HTTPConnection implements Runnable {
 					break; // Parsed OK
 				case 411:
 					new HTTPResponse(output).generateSpecificResponse(411);
-					//closeConnection();
 					continue;
 				case 500:
 					new HTTPResponse(output).generateSpecificResponse(500);
-					//closeConnection();
 					continue;
 				}
 				
@@ -107,9 +105,9 @@ public class HTTPConnection implements Runnable {
 				
 				proxyHandler.closeConnection();
 				
-				//HTTPResponse resposne = new HTTPResponse(request, output, root, defaultPage);
-				//resposne.generateResposne();
-				//keepAlive = request.getHeaders().get("connection").equalsIgnoreCase("keep-alive");
+				String keepAliveValue = request.getHeaders().get("connection");
+				if(keepAliveValue != null && keepAliveValue.equalsIgnoreCase("close"))
+					keepAlive = false;
 
 			} catch (IOException e) {
 				// Connection has been closed

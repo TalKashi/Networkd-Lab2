@@ -95,7 +95,7 @@ public class Main {
 			System.exit(1);
 		}
 		
-		if(root == null || defaultPage == null || port <= 0 || port >= 65536 || maxThreads <= 0) {
+		if(logFile == null || root == null || defaultPage == null || port <= 0 || port >= 65536 || maxThreads <= 0) {
 			System.out.println("ERROR: One of the given parameters in the config file is worng or missing! Exiting program.");
 			System.exit(1);
 		}
