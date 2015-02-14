@@ -116,7 +116,7 @@ public class HTTPRequest {
 			Matcher matcher = headerLine.matcher(line);
 			if(!matcher.matches())
 				continue; // Not a valid header line, skip it
-			if(blockedHeaders.contains(line.split(":")[0])){
+			if(blockedHeaders.contains(matcher.group(1).toLowerCase())){
 				continue; // Header should be ignored according to the policies
 			}
 			headersMap.put(matcher.group(1).toLowerCase(), matcher.group(2).toLowerCase());

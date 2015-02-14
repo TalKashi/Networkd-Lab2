@@ -52,7 +52,7 @@ public class ProxyHandler {
 	public boolean isRequestLegal(Map<String, Set<String>> policies, PrintWriter writer) {
 		setHostAndPath();
 		//If the white list is not empty then Check if the site is in the list
-		if(policies.get(Main.WHITE_LIST).size() > 0){
+		if(policies.get(ProxyServer.WHITE_LIST).size() > 0){
 			return isSiteInWhitelist(policies , writer);
 		}
 		if(isSiteBlock(policies, writer)){
@@ -227,7 +227,7 @@ public class ProxyHandler {
 	}
 
 	private boolean isSiteInWhitelist(Map<String, Set<String>> policies, PrintWriter writer) {
-		for(String site : policies.get(Main.WHITE_LIST)){
+		for(String site : policies.get(ProxyServer.WHITE_LIST)){
 			if(request.getPath().contains(site)){
 				return true;
 			}
@@ -237,9 +237,9 @@ public class ProxyHandler {
 	}
 
 	private boolean isSiteBlock(Map<String, Set<String>> policies, PrintWriter writer) {
-		for(String site : policies.get(Main.BLOCK_SITE)){
+		for(String site : policies.get(ProxyServer.BLOCK_SITE)){
 			if(request.getPath().contains(site)){
-				writeBlockedSiteToFile(request , Main.BLOCK_SITE + " \"" + site + "\"", writer);
+				writeBlockedSiteToFile(request , ProxyServer.BLOCK_SITE + " \"" + site + "\"", writer);
 				return true;
 			}
 		}
@@ -248,9 +248,9 @@ public class ProxyHandler {
 
 	private boolean isResourseBlocked(Map<String, Set<String>> policies,
 			PrintWriter writer) {
-		for(String resource : policies.get(Main.BLOCK_RESOURCE)){
+		for(String resource : policies.get(ProxyServer.BLOCK_RESOURCE)){
 			if(request.getPath().endsWith(resource)){
-				writeBlockedSiteToFile(request , Main.BLOCK_RESOURCE + " \"" + resource + "\"", writer);
+				writeBlockedSiteToFile(request , ProxyServer.BLOCK_RESOURCE + " \"" + resource + "\"", writer);
 				return true;
 			}
 		}
@@ -264,13 +264,13 @@ public class ProxyHandler {
 		try{
 			address = InetAddress.getByName(host);
 			byte[] rawDestinationIp = address.getAddress();
-			for(String ipAndMask : policies.get(Main.BLOCK_IP_MASK)){
+			for(String ipAndMask : policies.get(ProxyServer.BLOCK_IP_MASK)){
 				ip = constructByteArrayFromIp(ipAndMask.split("/")[0]);
 				if(ip == null)
 					continue;
 				mask = Integer.parseInt(ipAndMask.split("/")[1]);
 				if(shouldBlockIp(rawDestinationIp, ip, mask)) {
-					writeBlockedSiteToFile(request , Main.BLOCK_IP_MASK + " \"" + ipAndMask + "\"", writer);
+					writeBlockedSiteToFile(request , ProxyServer.BLOCK_IP_MASK + " \"" + ipAndMask + "\"", writer);
 					return true;
 				}
 			}

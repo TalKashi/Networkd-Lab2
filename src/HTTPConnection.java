@@ -54,7 +54,7 @@ public class HTTPConnection implements Runnable {
 					continue;
 				}
 				
-				request.readHeaders(input , policies.get(Main.BLOCK_HEADERS));
+				request.readHeaders(input , policies.get(ProxyServer.BLOCK_HEADERS));
 				
 				if(request.checkVersion()) {
 					new HTTPResponse(output).generateSpecificResponse(400);

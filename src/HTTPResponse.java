@@ -89,7 +89,7 @@ public class HTTPResponse {
 	public void generateSeeLogResponse(Map<String, Set<String>> policies) throws IOException {
 		String body = "<html><h1>See Log</h1>";
 		String line = null;
-		BufferedReader input = new BufferedReader(new FileReader(Main.logFile));
+		BufferedReader input = new BufferedReader(new FileReader(ProxyServer.logFile));
 		while((line = input.readLine()) != null) {
 			body += line + "<br>";
 		}
@@ -98,7 +98,7 @@ public class HTTPResponse {
 		sendResponse(OK, body, true);
 
 	}
-	
+
 	/**
 	 * generates the Edit Policy page
 	 * @param policies
@@ -118,7 +118,9 @@ public class HTTPResponse {
 				+ "</form></html>";
 		sendResponse(OK, body, true);
 	}
-	
+
+
+
 	/**
 	 * Get the new policies changes' update them' and returns an updated html to the client
 	 * @param policies
@@ -134,18 +136,18 @@ public class HTTPResponse {
 		body = body.replaceAll("%22", "\"");
 		body = body.replaceAll("%2F", "/");
 		body = body.replaceAll("%0D%0A" , ",");
-		
+
 		String[] allNewPolicies = body.split(",");
 		//Check the new policies Entered by the user
 		for(String newPolicy : allNewPolicies){
-			if(!Main.isPolicyValid(newPolicy)){
+			if(!ProxyServer.isPolicyValid(newPolicy)){
 				generateEditPolicyResponse(policies, "The policies you entered were not valid");
 				return;
 			}
 		}
-		
+
 		//Write the new policies to the policies file
-		File policeiesFile = new File(Main.policiesFile);
+		File policeiesFile = new File(ProxyServer.policiesFile);
 		PrintWriter writer = new PrintWriter(policeiesFile);
 		for(String newPolicy : allNewPolicies){
 			writer.append(newPolicy + CRLF);
@@ -153,12 +155,269 @@ public class HTTPResponse {
 		writer.flush();
 		writer.close();
 		//Updates the policies Map
-		Main.readPolicyFile();
-		
+		ProxyServer.readPolicyFile();
+
 		generateEditPolicyResponse(policies, "");
+	}	
+
+	private void sendResponse(String status, String body, boolean hasBody) throws IOException {
+		System.out.println("##	PRINTING RESPOSNE	##");
+
+		if(status.equals(MOVED_PERMANENTLY)) {
+			headersMap.put("Location", "/" + defaultPage);
+		}
+
+		headersMap.put(CONTENT_LENGTH, String.valueOf(body.length()));
+		headersMap.put(CONTENT_TYPE, "text/html");
+		System.out.print(status);
+		output.writeBytes(status);
+
+		for (String key : headersMap.keySet()) {
+			System.out.println(key + ": " + headersMap.get(key));
+			output.writeBytes(key + ": " + headersMap.get(key) + CRLF);
+		}
+		System.out.println("");
+		output.writeBytes(CRLF);
+
+		if(hasBody)
+			output.writeBytes(body + CRLF);
 	}
 
 	/*	public void generateResposne() throws IOException {
+	switch(request.getMethod()) {
+	case OPTIONS:
+		handleOptionRequest();
+		break;
+	case TRACE:
+		handleTraceRequest();
+		break;
+	default:
+		handleRequest();
+	}
+}
+
+private void handleRequest() throws IOException {
+	String path = request.getPath();
+	System.out.println("Path is: " + path);
+	File requestedFile = null;
+	boolean sendBody = request.getMethod() != Method.HEAD;
+
+	if(path.isEmpty() || path.equals("/")) {
+		System.out.println("Default is set to: " + defaultPage);
+		generateSpecificResponse(301);
+		return;
+		//			requestedFile = new File(root.getAbsolutePath() + "\\" + defaultPage);
+		//			path = defaultPage;
+	} else if(path.equalsIgnoreCase("/params_info.html")) {
+		handleParamsInfo(sendBody);
+		return;
+	} else {
+		requestedFile = new File(root.getAbsolutePath() + "\\" + path);
+	}
+
+	if(!requestedFile.isFile()) {
+		System.out.println("FILE WAS NOT FOUND");
+		generateSpecificResponse(404);
+		return;
+	}
+
+	String fileExtension;
+	ContentType type;
+	try {
+		fileExtension = path.substring(path.lastIndexOf(".") + 1, path.length());
+		type = checkFileExtension(fileExtension.toLowerCase());
+	} catch(StringIndexOutOfBoundsException e) {
+		type = ContentType.OTHER;
+		System.out.println("File doesn't have '.' in it");
+	}
+
+	System.out.println("Type is: " + type.toString());
+	String chunked = request.getHeaders().get("chunked");
+	if(chunked != null && chunked.equalsIgnoreCase("yes"))
+		sendResponseFile(requestedFile, type, sendBody, true);
+	else
+		sendResponseFile(requestedFile, type, sendBody, false);
+}
+
+private void handleParamsInfo(boolean sendBody) throws IOException {
+	String html = buildHtmlPage();
+	sendResponse(OK, html, sendBody);
+}
+
+private String buildHtmlPage() {
+	String html = "<HTML>" +
+			"<HEAD><TITLE>Computer networks</TITLE></HEAD>" +
+			"<BODY\">" +
+			"<table border=\"1\" style=\"width:100%\">";
+	HashMap<String, String> paramsMap = request.getParamsMap();
+	for(String key : request.getParamsMap().keySet()){
+		html +="<tr><td style=\"width:50%\">"+ key +"</td><td >" + paramsMap.get(key) + "</td></tr>";
+	}
+
+	html += "</table></BODY></HTML>";
+	return html;
+}*/
+
+	/*	private ContentType checkFileExtension(String extension) {
+	switch(extension) {
+	case "bmp":
+	case "gif":
+	case "png":
+	case "jpg":
+		return ContentType.PICTURE;
+	case "html":
+		return ContentType.HTML;
+	case "ico":
+		return ContentType.ICON;
+	default:
+		return ContentType.OTHER;
+	}
+}
+
+private void handleTraceRequest() throws IOException {
+
+	StringBuilder message = new StringBuilder();
+
+	message.append(request.getFirstLine() + CRLF);
+	HashMap<String, String> requestHeaders = request.getHeaders();
+	for(String key : requestHeaders.keySet()) {
+		message.append(key + ": " + requestHeaders.get(key) + CRLF);
+	}
+
+	sendResponse(OK, message.toString(), true);
+}
+private void handleOptionRequest() throws IOException {
+
+	StringBuilder message = new StringBuilder();
+	Method[] methodsArr = Method.values();
+	for(int i = 0; i < methodsArr.length - 1; i++) {
+		message.append(methodsArr[i].toString() + ", ");
+	}
+	message.append(methodsArr[methodsArr.length - 1].toString());
+
+	headersMap.put("Allow", message.toString());
+
+	sendResponse(OK, "", false);
+}*/
+
+	/*	public void generateResposne() throws IOException {
+			switch(request.getMethod()) {
+			case OPTIONS:
+				handleOptionRequest();
+				break;
+			case TRACE:
+				handleTraceRequest();
+				break;
+			default:
+				handleRequest();
+			}
+		}
+
+		private void handleRequest() throws IOException {
+			String path = request.getPath();
+			System.out.println("Path is: " + path);
+			File requestedFile = null;
+			boolean sendBody = request.getMethod() != Method.HEAD;
+
+			if(path.isEmpty() || path.equals("/")) {
+				System.out.println("Default is set to: " + defaultPage);
+				generateSpecificResponse(301);
+				return;
+				//			requestedFile = new File(root.getAbsolutePath() + "\\" + defaultPage);
+				//			path = defaultPage;
+			} else if(path.equalsIgnoreCase("/params_info.html")) {
+				handleParamsInfo(sendBody);
+				return;
+			} else {
+				requestedFile = new File(root.getAbsolutePath() + "\\" + path);
+			}
+
+			if(!requestedFile.isFile()) {
+				System.out.println("FILE WAS NOT FOUND");
+				generateSpecificResponse(404);
+				return;
+			}
+
+			String fileExtension;
+			ContentType type;
+			try {
+				fileExtension = path.substring(path.lastIndexOf(".") + 1, path.length());
+				type = checkFileExtension(fileExtension.toLowerCase());
+			} catch(StringIndexOutOfBoundsException e) {
+				type = ContentType.OTHER;
+				System.out.println("File doesn't have '.' in it");
+			}
+
+			System.out.println("Type is: " + type.toString());
+			String chunked = request.getHeaders().get("chunked");
+			if(chunked != null && chunked.equalsIgnoreCase("yes"))
+				sendResponseFile(requestedFile, type, sendBody, true);
+			else
+				sendResponseFile(requestedFile, type, sendBody, false);
+		}
+
+		private void handleParamsInfo(boolean sendBody) throws IOException {
+			String html = buildHtmlPage();
+			sendResponse(OK, html, sendBody);
+		}
+
+		private String buildHtmlPage() {
+			String html = "<HTML>" +
+					"<HEAD><TITLE>Computer networks</TITLE></HEAD>" +
+					"<BODY\">" +
+					"<table border=\"1\" style=\"width:100%\">";
+			HashMap<String, String> paramsMap = request.getParamsMap();
+			for(String key : request.getParamsMap().keySet()){
+				html +="<tr><td style=\"width:50%\">"+ key +"</td><td >" + paramsMap.get(key) + "</td></tr>";
+			}
+
+			html += "</table></BODY></HTML>";
+			return html;
+		}*/
+
+	/*	private ContentType checkFileExtension(String extension) {
+			switch(extension) {
+			case "bmp":
+			case "gif":
+			case "png":
+			case "jpg":
+				return ContentType.PICTURE;
+			case "html":
+				return ContentType.HTML;
+			case "ico":
+				return ContentType.ICON;
+			default:
+				return ContentType.OTHER;
+			}
+		}
+
+		private void handleTraceRequest() throws IOException {
+
+			StringBuilder message = new StringBuilder();
+
+			message.append(request.getFirstLine() + CRLF);
+			HashMap<String, String> requestHeaders = request.getHeaders();
+			for(String key : requestHeaders.keySet()) {
+				message.append(key + ": " + requestHeaders.get(key) + CRLF);
+			}
+
+			sendResponse(OK, message.toString(), true);
+		}
+		private void handleOptionRequest() throws IOException {
+
+			StringBuilder message = new StringBuilder();
+			Method[] methodsArr = Method.values();
+			for(int i = 0; i < methodsArr.length - 1; i++) {
+				message.append(methodsArr[i].toString() + ", ");
+			}
+			message.append(methodsArr[methodsArr.length - 1].toString());
+
+			headersMap.put("Allow", message.toString());
+
+			sendResponse(OK, "", false);
+		}
+
+	public void generateResposne() throws IOException {
 		switch(request.getMethod()) {
 		case OPTIONS:
 			handleOptionRequest();
@@ -233,7 +492,7 @@ public class HTTPResponse {
 		return html;
 	}*/
 
-	private ContentType checkFileExtension(String extension) {
+	/*	private ContentType checkFileExtension(String extension) {
 		switch(extension) {
 		case "bmp":
 		case "gif":
@@ -273,96 +532,5 @@ public class HTTPResponse {
 		headersMap.put("Allow", message.toString());
 
 		sendResponse(OK, "", false);
-	}
-
-	private void sendResponse(String status, String body, boolean hasBody) throws IOException {
-		System.out.println("##	PRINTING RESPOSNE	##");
-
-		if(status.equals(MOVED_PERMANENTLY)) {
-			headersMap.put("Location", "/" + defaultPage);
-		}
-
-		headersMap.put(CONTENT_LENGTH, String.valueOf(body.length()));
-		headersMap.put(CONTENT_TYPE, "text/html");
-		System.out.print(status);
-		output.writeBytes(status);
-
-		for (String key : headersMap.keySet()) {
-			System.out.println(key + ": " + headersMap.get(key));
-			output.writeBytes(key + ": " + headersMap.get(key) + CRLF);
-		}
-		System.out.println("");
-		output.writeBytes(CRLF);
-
-		if(hasBody)
-			output.writeBytes(body + CRLF);
-	}
-
-	private void sendResponseFile(File file, ContentType type, boolean sendBody, boolean chunked) throws IOException {
-		System.out.println("##	PRINTING RESPOSNE	##");
-
-		switch(type) {
-		case PICTURE:
-			headersMap.put(CONTENT_TYPE, "image");
-			break;
-		case HTML:
-			headersMap.put(CONTENT_TYPE, "text/html");
-			break;
-		case ICON:
-			headersMap.put(CONTENT_TYPE, "icon");
-			break;
-		default:
-			headersMap.put(CONTENT_TYPE, "application/octet-stream");
-		}
-
-		if(!chunked)
-			headersMap.put(CONTENT_LENGTH, String.valueOf(file.length()));
-		else
-			headersMap.put("Transfer-Encoding", "Chunked");
-
-		System.out.print(OK);
-		output.writeBytes(OK);
-
-		for (String key : headersMap.keySet()) {
-			System.out.println(key + ": " + headersMap.get(key));
-			output.writeBytes(key + ": " + headersMap.get(key) + CRLF);
-		}
-		System.out.println("");
-		output.writeBytes(CRLF);
-
-		if(sendBody) {
-			if(chunked) {
-				sendChunked(file);
-			} else {
-				byte[] fileBytes = readFile(file);
-				output.write(fileBytes);
-				output.writeBytes(CRLF);
-			}
-		}
-	}
-
-	private void sendChunked(File file) throws IOException {
-		FileInputStream input = new FileInputStream(file);
-		byte[] buffer = new byte[BUFFER_SIZE];
-		int len;
-
-		while ((len = input.read(buffer, 0, BUFFER_SIZE)) != -1) {
-			output.writeBytes(Integer.toHexString(len) + CRLF);
-			output.write(buffer, 0, len);
-			output.writeBytes(CRLF);
-		}
-		output.writeBytes("0" + CRLF + CRLF);
-
-		input.close();
-	}
-
-	private byte[] readFile(File file) throws IOException {
-		FileInputStream input = new FileInputStream(file);
-		byte[] bFile = new byte[(int) file.length()];
-
-		while(input.available() != 0)
-			input.read(bFile, 0, bFile.length);
-		input.close();
-		return bFile;
-	}
+	}*/
 }

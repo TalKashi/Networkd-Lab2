@@ -13,7 +13,7 @@ import java.util.Set;
  * @author Tal Kashi & Tamir Croll
  *
  */
-public class Main {
+public class ProxyServer {
 	private final static String CONFIG_FILE = "config.ini";
 	private static String defaultPage = null;
 	private static int port = 0;
@@ -169,6 +169,7 @@ public class Main {
 	}
 	
 	public static boolean isPolicyValid(String policy) {
+		policy = policy.toLowerCase();
 		if(policy.replaceAll(" ", "").equals("")){
 			return true;
 		}
