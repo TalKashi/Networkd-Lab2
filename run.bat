@@ -1,0 +1,1 @@
+java ProxyServer policy.ini
