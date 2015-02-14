@@ -90,6 +90,7 @@ public class HTTPResponse {
 		if(specialMethod(request)){
 			return;
 		}
+		boolean isHead = (request.getMethod().equals(Method.HEAD)) ? true : false;
 		String body = "<html><h1>See Log</h1>";
 		String line = null;
 		BufferedReader input = new BufferedReader(new FileReader(ProxyServer.logFile));
@@ -98,7 +99,7 @@ public class HTTPResponse {
 		}
 		input.close();
 		body += "</html>";
-		sendResponse(OK, body, true);
+		sendResponse(OK, body, isHead);
 	}
 
 	/**
@@ -111,6 +112,7 @@ public class HTTPResponse {
 		if(specialMethod(request)){
 			return;
 		}
+		boolean isHead = (request.getMethod().equals(Method.HEAD)) ? true : false;
 		String body = "<html><h1>Edit Policies</h1><span  style='color:#ff0000'>" + msg +"</span><form action='/new_policies' method='POST' >"
 				+ "<textarea name='textarea' rows='10' cols='50'>"; 
 		for(String policy : policies.keySet()){
@@ -121,7 +123,7 @@ public class HTTPResponse {
 		body += "</textarea><br>" +
 				"<submit><input type=\"submit\" value=\"Submit\">"
 				+ "</form></html>";
-		sendResponse(OK, body, true);
+		sendResponse(OK, body, isHead);
 	}
 
 
