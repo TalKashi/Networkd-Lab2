@@ -47,9 +47,10 @@ public class ProxyHandler {
 	 * @param policies
 	 * @param writer
 	 * @return
+	 * @throws Exception 
 	 * @throws UnknownHostException 
 	 */
-	public boolean isRequestLegal(Map<String, Set<String>> policies, PrintWriter writer) {
+	public boolean isRequestLegal(Map<String, Set<String>> policies, PrintWriter writer) throws Exception {
 		setHostAndPath();
 		//If the white list is not empty then Check if the site is in the list
 		if(policies.get(ProxyServer.WHITE_LIST).size() > 0){
@@ -295,7 +296,7 @@ public class ProxyHandler {
 		return true;
 	}
 
-	private void setHostAndPath() {
+	private void setHostAndPath() throws Exception {
 		String pathFromRequest = request.getPath().toLowerCase() + request.getQuery();
 		System.out.println(myCounter + " | DEBUG: First line: " + pathFromRequest);
 		Pattern pattern = Pattern.compile("http://([^/]*)(/?.*)");
@@ -305,7 +306,7 @@ public class ProxyHandler {
 			path = matcher.group(2);
 		} else {
 			System.out.println(myCounter + " | ### Failed to match original path from request! (" + pathFromRequest + ") ###");
-			// TODO: throw exception to handle with it
+			throw new Exception("Failed to parse host from request");
 		}
 	}
 
