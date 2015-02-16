@@ -1,0 +1,6 @@
+Added support for white-list, if there is at least one rule of white-list, any site that is not in the white-list is blocked, and ignores the other block rules (meaning if google in white-list and block-site, it is allowed to surf it)
+Added policy rule block-header "<header_name>" - you can put headers so the proxy server will ignore from the CLIENT and won't pass it forward to the destination site, for example block-header "accept-encoding"
+
+And in addition this were the bonus that was used in Lab1:
+Our server does not accept POST without content-length (like the RFC says it is allowed), we return 411 - Length Required
+Added 400 - bad request when sending HTTP/1.1 and not having Host header
