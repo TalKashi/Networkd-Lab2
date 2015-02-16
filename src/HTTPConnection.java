@@ -18,13 +18,13 @@ public class HTTPConnection implements Runnable {
 	private Map<String , Set<String>> policies;
 	private int myCounter;
 	private PrintWriter writer;
-	private SitesCache sitesChach;
+	private SitesCache sitesCache;
 	
-	public HTTPConnection(Socket socket, Map<String, Set<String>> policies, PrintWriter writer, SitesCache sitesChach) throws IOException {
+	public HTTPConnection(Socket socket, Map<String, Set<String>> policies, PrintWriter writer, SitesCache sitesCache) throws IOException {
 		this.socket = socket;
 		this.policies = policies;
 		this.writer = writer;
-		this.sitesChach = sitesChach;
+		this.sitesCache = sitesCache;
 		input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		output = new DataOutputStream(socket.getOutputStream());
 		myCounter = counter++;
@@ -69,7 +69,7 @@ public class HTTPConnection implements Runnable {
 					continue;
 				}
 				
-				ProxyHandler proxyHandler = new ProxyHandler(request, myCounter , sitesChach);
+				ProxyHandler proxyHandler = new ProxyHandler(request, myCounter , sitesCache);
 				
 				if(proxyHandler.isSeeLog()){
 					new HTTPResponse(output).generateSeeLogResponse(policies , request);
@@ -90,7 +90,7 @@ public class HTTPConnection implements Runnable {
 				}
 				
 				proxyHandler.connectToHost();
-				if(!sitesChach.containsAndUpdateTime(request.getFirstLine())){					
+				if(!sitesCache.containsAndUpdateTime(request.getFirstLine())){					
 					proxyHandler.sendRequest();
 				}
 				proxyHandler.getResponseAndSendIt(output);
