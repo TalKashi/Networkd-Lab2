@@ -36,11 +36,8 @@ public class SitesCache {
 	}
 
 	public synchronized void addSite(String firstLine) {
-		if(!sites.containsKey(firstLine.toLowerCase())){
-			sites.remove(firstLine.toLowerCase());
-		}
 		CachedWebPage webPage = new CachedWebPage(firstLine);
-		sites.put(firstLine, webPage);
+		sites.put(firstLine.toLowerCase(), webPage);
 		if(sites.size() >= MAX_NUMBER_OF_SITES_IN_CACHE){
 			removeMostUnusedSite();
 		}

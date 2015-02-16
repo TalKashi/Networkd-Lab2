@@ -36,7 +36,7 @@ public class ProxyHandler {
 	private int myCounter;
 	private String host, path, ruleBlocked;
 	private SitesCache sitesCache;
-	private String chachedSiteFileName;
+	private String cachedSiteFileName;
 
 	/**
 	 * Constructor
@@ -47,7 +47,7 @@ public class ProxyHandler {
 	public ProxyHandler(HTTPRequest request, int counter, SitesCache sitesCache) {
 		this.request = request;
 		myCounter = counter;
-		chachedSiteFileName = "cache/" + String.valueOf(request.getFirstLine().toLowerCase().hashCode());
+		cachedSiteFileName = "cache/" + String.valueOf(request.getFirstLine().toLowerCase().hashCode());
 		this.sitesCache = sitesCache;
 	}
 
@@ -105,17 +105,22 @@ public class ProxyHandler {
 		System.out.println(myCounter + " | ### Finished sending request from proxy ###");
 	}
 
+	/**
+	 * Get the response from the server' add it to cache if needed, and the sends it to the user 
+	 * @param clientOutputStream
+	 * @throws IOException
+	 */
 	public void getResponseAndSendIt(DataOutputStream clientOutputStream) throws IOException {
+		DataOutputStream tempOutput = clientOutputStream;
 		System.out.println(myCounter + " | ### Getting response from destination host and sending to client ###");
 		boolean foundChunkedOrContentLength = false;
 		boolean isInCache = sitesCache.containsAndUpdateTime(request.getFirstLine());
-		tempOutput = clientOutputStream;
 		BufferedInputStream  bis;
 		String line;
 		
 		if(isInCache){
 			try{
-				File file = new File(chachedSiteFileName);
+				File file = new File(cachedSiteFileName);
 				FileInputStream fis = new FileInputStream(file);
 				bis = new BufferedInputStream(fis);
 				input.close();
@@ -125,7 +130,7 @@ public class ProxyHandler {
 			}
 		}
 		if(!isInCache){
-			FileOutputStream fos = new FileOutputStream(chachedSiteFileName);
+			FileOutputStream fos = new FileOutputStream(cachedSiteFileName);
 			clientOutputStream = new DataOutputStream(fos);
 		}
 		
@@ -185,12 +190,12 @@ public class ProxyHandler {
 		}
 		clientOutputStream.flush();
 		if(!isInCache){
-			sitesCache.addSite(request.getFirstLine().toLowerCase());
+			sitesCache.addSite(request.getFirstLine());
 			clientOutputStream.close();
 			getResponseAndSendIt(tempOutput);
 			tempOutput.close();
 		}else{
-			sitesCache.updateLastUsed(request.getFirstLine().toLowerCase());
+			sitesCache.updateLastUsed(request.getFirstLine());
 		}
 		System.out.println(myCounter + " | ### Finished getting response from destination host and sending to client ###");
 	}
