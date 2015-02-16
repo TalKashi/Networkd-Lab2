@@ -58,8 +58,6 @@ public class HTTPConnection implements Runnable {
 					continue;
 				}
 				
-				//request.parseQuery(false);
-				
 				switch(request.readBody(input)) {
 				case 0:
 					break; // Parsed OK
@@ -80,8 +78,7 @@ public class HTTPConnection implements Runnable {
 				if(proxyHandler.isNewPolicies()){
 					new HTTPResponse(output).editPoliciesAndGenerateResponse(policies , request);
 					continue;
-				}
-				
+				}				
 				
 				if(proxyHandler.isEditPolicy()){
 					new HTTPResponse(output).generateEditPolicyResponse(policies , "" , request);
@@ -92,9 +89,8 @@ public class HTTPConnection implements Runnable {
 					continue;
 				}
 				
-				if(!sitesChach.containsAndUpdateTime(request.getFirstLine())){
-					proxyHandler.connectToHost();
-					
+				proxyHandler.connectToHost();
+				if(!sitesChach.containsAndUpdateTime(request.getFirstLine())){					
 					proxyHandler.sendRequest();
 				}
 				proxyHandler.getResponseAndSendIt(output);

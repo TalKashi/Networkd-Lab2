@@ -373,9 +373,10 @@ public class ProxyHandler {
 	}
 
 	private boolean checkForContentLengthOrChunked(String line) {
-		// TODO: Fix the split to use regex
+		if(line.split(":").length != 2)
+			return false;
 		if(line.toLowerCase().contains("content-length")) {
-			contentLength = line.split(": ")[1];
+			contentLength = line.split(":")[1].replaceAll(" ", "");
 			return true;
 		} else if (line.toLowerCase().contains("transfer-encoding") && line.toLowerCase().contains("chunked")) {
 			chunked = true;
