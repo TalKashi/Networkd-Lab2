@@ -7,7 +7,7 @@ public class CachedWebPage {
 	String firstLine;
 	
 	public CachedWebPage(String firstLine) {
-		this.firstLine = firstLine;
+		this.firstLine = firstLine.toLowerCase();
 		lastUpdate = new Date();
 		lastUsed = new Date();
 	}
@@ -25,7 +25,7 @@ public class CachedWebPage {
 	}
 	
 	public String getFileName(){
-		return String.valueOf(firstLine.toLowerCase().hashCode());
+		return String.valueOf(firstLine.hashCode());
 	}
 	
 	public void updateLastUsed(){

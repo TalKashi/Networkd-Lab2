@@ -36,7 +36,7 @@ public class SitesCache {
 	}
 
 	public synchronized void addSite(String firstLine) {
-		CachedWebPage webPage = new CachedWebPage(firstLine);
+		CachedWebPage webPage = new CachedWebPage(firstLine.toLowerCase());
 		sites.put(firstLine.toLowerCase(), webPage);
 		if(sites.size() >= MAX_NUMBER_OF_SITES_IN_CACHE) {
 			removeMostUnusedSite();
