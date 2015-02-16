@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -113,12 +114,17 @@ public class ProxyHandler {
 		String line;
 		
 		if(isInCache){
-			File file = new File(chachedSiteFileName);
-			FileInputStream fis = new FileInputStream(file);
-			bis = new BufferedInputStream(fis);
-			input.close();
-			input = new DataInputStream(bis);
-		}else{
+			try{
+				File file = new File(chachedSiteFileName);
+				FileInputStream fis = new FileInputStream(file);
+				bis = new BufferedInputStream(fis);
+				input.close();
+				input = new DataInputStream(bis);
+			} catch(FileNotFoundException e){
+				isInCache = false;
+			}
+		}
+		if(!isInCache){
 			FileOutputStream fos = new FileOutputStream(chachedSiteFileName);
 			clientOutputStream = new DataOutputStream(fos);
 		}
@@ -179,12 +185,12 @@ public class ProxyHandler {
 		}
 		clientOutputStream.flush();
 		if(!isInCache){
-			sitesCache.addSite(request.getFirstLine(), this);
+			sitesCache.addSite(request.getFirstLine().toLowerCase());
 			clientOutputStream.close();
 			getResponseAndSendIt(tempOutput);
 			tempOutput.close();
 		}else{
-			sitesCache.updateLastUsed(request.getFirstLine());
+			sitesCache.updateLastUsed(request.getFirstLine().toLowerCase());
 		}
 		System.out.println(myCounter + " | ### Finished getting response from destination host and sending to client ###");
 	}

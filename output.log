@@ -1,0 +1,744 @@
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BNTY2OTI5MjAyOV5BMl5BanBnXkFtZTgwNTkzMjQ0NDE@._V1_SX201_CR0,0,201,298_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjAzMjQyNTU1N15BMl5BanBnXkFtZTgwMDk4NTQ0NDE@._V1_SX201_CR0,0,201,298_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BNzUyODI4MzE5N15BMl5BanBnXkFtZTgwMjQxNzk3MTE@._V1_SY298_CR11,0,201,298_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTkxNzI3ODI4Nl5BMl5BanBnXkFtZTgwMjkwMjY4MjE@._V1_SX148_CR0,0,148,148_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BNDkwNTEyMzkzNl5BMl5BanBnXkFtZTgwNTAwNzk3MjE@._V1_SX148_CR0,0,148,148_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTk0MDQ3MzAzOV5BMl5BanBnXkFtZTgwNzU1NzE3MjE@._V1_SY132_CR0,0,89,132_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BOTg1MjgwMDQ5Ml5BMl5BanBnXkFtZTgwOTA3MDM5MzE@._V1_SY150_CR0,0,101,150_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjQwMDAzMjAyM15BMl5BanBnXkFtZTgwMjAxMzc0MjE@._V1_SY150_CR8,0,101,150_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMzIwMjIwNjg0M15BMl5BanBnXkFtZTgwOTI3MDEzMDE@._V1_SY150_CR7,0,101,150_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjIzODUzNzMxNl5BMl5BanBnXkFtZTgwMzY3MTQ0NDE@._V1_SX201_CR0,0,201,201_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTk0NjkxNzE3NF5BMl5BanBnXkFtZTgwMTY1MDY0NDE@._V1_SX201_CR0,0,201,201_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjE5NDcyMDcxOV5BMl5BanBnXkFtZTgwNzI4NjQ0NDE@._V1_SX201_CR0,0,201,201_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTAwMjU5OTgxNjZeQTJeQWpwZ15BbWU4MDUxNDYxODEx._V1_SY298_CR0,0,201,298_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjIzNzAxNjY1Nl5BMl5BanBnXkFtZTgwMDg4ODQxMzE@._V1_SY298_CR0,0,201,298_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_SY298_CR0,0,201,298_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjEzMjA0ODk1OF5BMl5BanBnXkFtZTcwMTA4ODM3OQ@@._V1_SY172_CR3,0,116,172_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTIwOTI1NjUxMl5BMl5BanBnXkFtZTYwMTAzNjI3._V1_SX116_CR0,0,116,172_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjA3ODYyMDQwOV5BMl5BanBnXkFtZTcwNzM3MTAzNw@@._V1_SY172_CR3,0,116,172_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTgzOTQwODM2Nl5BMl5BanBnXkFtZTcwNDQ3MzM5OQ@@._V1_SY172_CR8,0,116,172_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjAzNjM4NjQwM15BMl5BanBnXkFtZTcwODk4OTMyMw@@._V1_SY172_CR66,0,116,172_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjI0NDQ5ODQ0MV5BMl5BanBnXkFtZTgwMzIzMzIyMjE@._V1_SY148_CR24,0,148,148_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjM4NzMxNjQ2MF5BMl5BanBnXkFtZTgwNDI3MDg1MzE@._V1_SY148_CR58,0,148,148_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTczNzAzNzc4OV5BMl5BanBnXkFtZTgwMTU2MjkzMjE@._V1_SY148_CR37,0,148,148_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTkxMjgwMDM4Ml5BMl5BanBnXkFtZTgwMTk3NTIwNDE@._V1_SX148_CR0,0,148,148_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BNTA2MTE1NDI5OV5BMl5BanBnXkFtZTcwNzM2MzU3Nw@@._V1_SX350_CR0,0,350,350_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BOTg1MjgwMDQ5Ml5BMl5BanBnXkFtZTgwOTA3MDM5MzE@._V1_SX350_CR0,0,350,350_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTkxNzI3ODI4Nl5BMl5BanBnXkFtZTgwMjkwMjY4MjE@._V1_SX148_CR0,0,148,148_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BNTY2OTI5MjAyOV5BMl5BanBnXkFtZTgwNTkzMjQ0NDE@._V1_SX201_CR0,0,201,298_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BNDkwNTEyMzkzNl5BMl5BanBnXkFtZTgwNTAwNzk3MjE@._V1_SX148_CR0,0,148,148_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BNzUyODI4MzE5N15BMl5BanBnXkFtZTgwMjQxNzk3MTE@._V1_SY298_CR11,0,201,298_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjAzMjQyNTU1N15BMl5BanBnXkFtZTgwMDk4NTQ0NDE@._V1_SX201_CR0,0,201,298_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTIwOTI1NjUxMl5BMl5BanBnXkFtZTYwMTAzNjI3._V1_SX116_CR0,0,116,172_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMzIwMjIwNjg0M15BMl5BanBnXkFtZTgwOTI3MDEzMDE@._V1_SY150_CR7,0,101,150_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BOTg1MjgwMDQ5Ml5BMl5BanBnXkFtZTgwOTA3MDM5MzE@._V1_SY150_CR0,0,101,150_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjQwMDAzMjAyM15BMl5BanBnXkFtZTgwMjAxMzc0MjE@._V1_SY150_CR8,0,101,150_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTczNzAzNzc4OV5BMl5BanBnXkFtZTgwMTU2MjkzMjE@._V1_SY148_CR37,0,148,148_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTkxMjgwMDM4Ml5BMl5BanBnXkFtZTgwMTk3NTIwNDE@._V1_SX148_CR0,0,148,148_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_SY298_CR0,0,201,298_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjIzODUzNzMxNl5BMl5BanBnXkFtZTgwMzY3MTQ0NDE@._V1_SX201_CR0,0,201,201_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:45
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjE5NDcyMDcxOV5BMl5BanBnXkFtZTgwNzI4NjQ0NDE@._V1_SX201_CR0,0,201,201_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:46
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTAwMjU5OTgxNjZeQTJeQWpwZ15BbWU4MDUxNDYxODEx._V1_SY298_CR0,0,201,298_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:46
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTk0NjkxNzE3NF5BMl5BanBnXkFtZTgwMTY1MDY0NDE@._V1_SX201_CR0,0,201,201_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:46
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjIzNzAxNjY1Nl5BMl5BanBnXkFtZTgwMDg4ODQxMzE@._V1_SY298_CR0,0,201,298_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:46
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjEzMjA0ODk1OF5BMl5BanBnXkFtZTcwMTA4ODM3OQ@@._V1_SY172_CR3,0,116,172_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:46
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjA3ODYyMDQwOV5BMl5BanBnXkFtZTcwNzM3MTAzNw@@._V1_SY172_CR3,0,116,172_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:46
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTgzOTQwODM2Nl5BMl5BanBnXkFtZTcwNDQ3MzM5OQ@@._V1_SY172_CR8,0,116,172_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:46
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjAzNjM4NjQwM15BMl5BanBnXkFtZTcwODk4OTMyMw@@._V1_SY172_CR66,0,116,172_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:46
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjM4NzMxNjQ2MF5BMl5BanBnXkFtZTgwNDI3MDg1MzE@._V1_SY148_CR58,0,148,148_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:46
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMjI0NDQ5ODQ0MV5BMl5BanBnXkFtZTgwMzIzMzIyMjE@._V1_SY148_CR24,0,148,148_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:15:46
+HTTP request:
+GET http://ia.media-imdb.com/images/M/MV5BMTk0MDQ3MzAzOV5BMl5BanBnXkFtZTgwNzU1NzE3MjE@._V1_SY132_CR0,0,89,132_AL_.jpg HTTP/1.1
+  referer: http://www.imdb.com/
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  host: ia.media-imdb.com
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:18:44
+HTTP request:
+GET http://portal.idc.ac.il/PublishingImages/myidc/upperslider/cloudenrts_he.jpg HTTP/1.1
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  cookie: idc365=
+  host: portal.idc.ac.il
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:18:44
+HTTP request:
+GET http://portal.idc.ac.il/PublishingImages/myidc/upperslider/idc_jobs_heb.jpg HTTP/1.1
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  cookie: idc365=; __utma=163346915.1931398395.1424114324.1424114324.1424114324.1; __utmb=163346915.3.10.1424114324; __utmc=163346915; __utmz=163346915.1424114324.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=163346915.testvaruser|2=testvarcustom=tester=1; __utmt=1
+  host: portal.idc.ac.il
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:18:44
+HTTP request:
+GET http://portal.idc.ac.il/PublishingImages/myidc/upperslider/miluim-he.jpg HTTP/1.1
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  cookie: idc365=
+  host: portal.idc.ac.il
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:18:44
+HTTP request:
+GET http://portal.idc.ac.il/PublishingImages/myidc/upperslider/kivun.jpg HTTP/1.1
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  cookie: idc365=; __utma=163346915.1931398395.1424114324.1424114324.1424114324.1; __utmb=163346915.3.10.1424114324; __utmc=163346915; __utmz=163346915.1424114324.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=163346915.testvaruser|2=testvarcustom=tester=1; __utmt=1
+  host: portal.idc.ac.il
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:18:44
+HTTP request:
+GET http://portal.idc.ac.il/PublishingImages/myidc/upperslider/office365.jpg HTTP/1.1
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  cookie: idc365=; __utma=163346915.1931398395.1424114324.1424114324.1424114324.1; __utmb=163346915.3.10.1424114324; __utmc=163346915; __utmz=163346915.1424114324.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=163346915.testvaruser|2=testvarcustom=tester=1; __utmt=1
+  host: portal.idc.ac.il
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:18:44
+HTTP request:
+GET http://portal.idc.ac.il/PublishingImages/myidc/upperslider/library.jpg HTTP/1.1
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  cookie: idc365=; __utma=163346915.1931398395.1424114324.1424114324.1424114324.1; __utmb=163346915.3.10.1424114324; __utmc=163346915; __utmz=163346915.1424114324.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=163346915.testvaruser|2=testvarcustom=tester=1; __utmt=1
+  host: portal.idc.ac.il
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:18:44
+HTTP request:
+GET http://portal.idc.ac.il/PublishingImages/myidc/upperslider/COOPbanner.jpg HTTP/1.1
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  cookie: idc365=; __utma=163346915.1931398395.1424114324.1424114324.1424114324.1; __utmb=163346915.3.10.1424114324; __utmc=163346915; __utmz=163346915.1424114324.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=163346915.testvaruser|2=testvarcustom=tester=1; __utmt=1
+  host: portal.idc.ac.il
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:18:44
+HTTP request:
+GET http://portal.idc.ac.il/PublishingImages/myidc/upperslider/meuravut.jpg HTTP/1.1
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  cookie: idc365=; __utma=163346915.1931398395.1424114324.1424114324.1424114324.1; __utmb=163346915.3.10.1424114324; __utmc=163346915; __utmz=163346915.1424114324.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=163346915.testvaruser|2=testvarcustom=tester=1; __utmt=1
+  host: portal.idc.ac.il
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:18:44
+HTTP request:
+GET http://portal.idc.ac.il/PublishingImages/myidc/upperslider/legal_advice.jpg HTTP/1.1
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  cookie: idc365=; __utma=163346915.1931398395.1424114324.1424114324.1424114324.1; __utmb=163346915.3.10.1424114324; __utmc=163346915; __utmz=163346915.1424114324.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=163346915.testvaruser|2=testvarcustom=tester=1; __utmt=1
+  host: portal.idc.ac.il
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:18:44
+HTTP request:
+GET http://portal.idc.ac.il/PublishingImages/myidc/upperslider/banner_Library_Exhibition.jpg HTTP/1.1
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  cookie: idc365=; __utma=163346915.1931398395.1424114324.1424114324.1424114324.1; __utmb=163346915.3.10.1424114324; __utmc=163346915; __utmz=163346915.1424114324.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=163346915.testvaruser|2=testvarcustom=tester=1; __utmt=1
+  host: portal.idc.ac.il
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:18:45
+HTTP request:
+GET http://portal.idc.ac.il/PublishingImages/myidc/upperslider/cloudenrts_he.jpg HTTP/1.1
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  cookie: idc365=; __utma=163346915.1931398395.1424114324.1424114324.1424114324.1; __utmb=163346915.3.10.1424114324; __utmc=163346915; __utmz=163346915.1424114324.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=163346915.testvaruser|2=testvarcustom=tester=1; __utmt=1; portal_idc=318837932.20480.0000; ts01bf2666=01bfb6bbf7879d8a7f2306ec78a9dd85f17d53b5cca5ba34473e3e1911ceecfa64a944a3b43ff1a917635a5c2c29a30c8b816d34dc
+  host: portal.idc.ac.il
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+
+Time of blocking: 16\02\2015 21:18:54
+HTTP request:
+GET http://portal.idc.ac.il/PublishingImages/myidc/upperslider/miluim-he.jpg HTTP/1.1
+  accept-language: he,he-il;q=0.8,en-us;q=0.5,en;q=0.3
+  cookie: idc365=; __utma=163346915.1931398395.1424114324.1424114324.1424114324.1; __utmb=163346915.4.9.1424114327574; __utmc=163346915; __utmz=163346915.1424114324.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=163346915.testvaruser|2=testvarcustom=tester=1; __utmt=1; portal_idc=318837932.20480.0000; ts01bf2666=01bfb6bbf755e6039acdfa4b3fe60bc0b1cffa0e0b8ee6adefb890176396c584df6985e173
+  host: portal.idc.ac.il
+  connection: keep-alive
+  accept-encoding: gzip, deflate
+  user-agent: mozilla/5.0 (windows nt 6.1; wow64; rv:30.0) gecko/20100101 firefox/30.0
+  accept: image/png,image/*;q=0.8,*/*;q=0.5
+Rule Blocked the request: block-resource ".jpg"
+

@@ -11,7 +11,7 @@ public class SitesCache {
 
 	public boolean containsAndUpdateTime(String site){
 		if(sites.containsKey(site.toLowerCase())){
-			long lastUpdate = sites.get(site).getLastUpdate().getTime();
+			long lastUpdate = sites.get(site.toLowerCase()).getLastUpdate().getTime();
 			long now = new Date().getTime();
 			if((lastUpdate - now)/(1000*60) < MAX_MINUTES_WITHOUT_UPDATE){
 				return true;
@@ -19,15 +19,15 @@ public class SitesCache {
 		}
 		return false;
 	}
-	
+
 	public void updateLastUsed(String site){
-		sites.get(site).updateLastUsed();
+		sites.get(site.toLowerCase()).updateLastUsed();
 	}
-	
+
 	public String getFilePath(String Site){
 		return "cache/" + sites.get(Site.toLowerCase()).getFileName();
 	}
-	
+
 	public CachedWebPage getSite(String site){
 		if(sites.containsKey(site.toLowerCase())){
 			return sites.get(site.toLowerCase());
@@ -35,22 +35,23 @@ public class SitesCache {
 		return null;  
 	}
 
-	public synchronized void addSite(String firstLine, ProxyHandler proxy) {
+	public synchronized void addSite(String firstLine) {
 		if(!sites.containsKey(firstLine.toLowerCase())){
-			CachedWebPage webPage = new CachedWebPage(firstLine);
-			sites.put(firstLine, webPage);
-			if(sites.size() >= MAX_NUMBER_OF_SITES_IN_CACHE){
-				removeMostUnusedSite();
-			}
+			sites.remove(firstLine.toLowerCase());
+		}
+		CachedWebPage webPage = new CachedWebPage(firstLine);
+		sites.put(firstLine, webPage);
+		if(sites.size() >= MAX_NUMBER_OF_SITES_IN_CACHE){
+			removeMostUnusedSite();
 		}
 	}
-	
+
 	private void removeMostUnusedSite() {
 		String siteToRemove = getUnusedSiteToRemove();
 		try{
 			String siteToRemoveFileName = String.valueOf(siteToRemove.toLowerCase().hashCode());
 			File file = new File("cache/" + String.valueOf(siteToRemoveFileName));
-			
+
 			if(file.delete()){
 				System.out.println(file.getName() + " is deleted!");
 			}else{
