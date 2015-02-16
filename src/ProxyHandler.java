@@ -35,7 +35,7 @@ public class ProxyHandler {
 	private int myCounter;
 	private String host, path, ruleBlocked;
 	private SitesCache sitesCache;
-	private String contentFileName;
+	private String chachedSiteFileName;
 
 	/**
 	 * Constructor
@@ -46,7 +46,7 @@ public class ProxyHandler {
 	public ProxyHandler(HTTPRequest request, int counter, SitesCache sitesCache) {
 		this.request = request;
 		myCounter = counter;
-		contentFileName = "cache/" + String.valueOf(request.getFirstLine().hashCode());
+		chachedSiteFileName = "cache/" + String.valueOf(request.getFirstLine().toLowerCase().hashCode());
 		this.sitesCache = sitesCache;
 	}
 
@@ -113,18 +113,20 @@ public class ProxyHandler {
 		String line;
 		
 		if(isInCache){
-			File file = new File(contentFileName);
+			File file = new File(chachedSiteFileName);
 			FileInputStream fis = new FileInputStream(file);
 			bis = new BufferedInputStream(fis);
 			input.close();
 			input = new DataInputStream(bis);
 		}else{
-			FileOutputStream fos = new FileOutputStream(contentFileName);
+			FileOutputStream fos = new FileOutputStream(chachedSiteFileName);
 			clientOutputStream = new DataOutputStream(fos);
 		}
 		
 		while((line = readLine()) != null && !line.isEmpty()) {
-			System.out.println(line);
+			if(isInCache){
+				System.out.println(line);
+			}
 			clientOutputStream.writeBytes(line + CRLF);
 			if(!foundChunkedOrContentLength) {
 				foundChunkedOrContentLength = checkForContentLengthOrChunked(line);

@@ -4,16 +4,16 @@ import java.util.Date;
 public class CachedWebPage {
 	Date lastUsed;
 	Date lastUpdate;
-	String DomainName;
+	String firstLine;
 	
-	public CachedWebPage(String DomainName) {
-		this.DomainName = DomainName;
+	public CachedWebPage(String firstLine) {
+		this.firstLine = firstLine;
 		lastUpdate = new Date();
 		lastUsed = new Date();
 	}
 	
 	public String getDomainName(){
-		return this.DomainName;
+		return this.firstLine;
 	}
 	
 	public Date getLastUpdate (){
@@ -22,6 +22,10 @@ public class CachedWebPage {
 	
 	public Date getLastUsedDate (){
 		return this.lastUsed;
+	}
+	
+	public String getFileName(){
+		return String.valueOf(firstLine.toLowerCase().hashCode());
 	}
 	
 	public void updateLastUsed(){
