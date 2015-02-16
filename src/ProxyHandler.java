@@ -374,6 +374,7 @@ public class ProxyHandler {
 	}
 
 	private boolean checkForContentLengthOrChunked(String line) {
+		// TODO: Fix the split to use regex
 		if(line.toLowerCase().contains("content-length")) {
 			contentLength = line.split(": ")[1];
 			return true;
