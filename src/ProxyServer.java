@@ -26,7 +26,8 @@ public class ProxyServer {
 	private static Set<String> whiteList = new HashSet<String>();
 	private static Set<String> blockedHeaders = new HashSet<String>();
 	private static PrintWriter writer;
-
+	private static SitesCache sitesChach = new SitesCache();
+	
 	public static String policiesFile;
 	public final static String BLOCK_SITE = "block-site";
 	public final static String BLOCK_RESOURCE = "block-resource";
@@ -106,13 +107,12 @@ public class ProxyServer {
 		
 		WebServer server;
 		try {
-			server = new WebServer(port, maxThreads , policies , writer);
+			server = new WebServer(port, maxThreads , policies , writer , sitesChach);
 			server.run();
 		} catch(IOException e) {
 			System.out.println("ERROR: Failed to create ServerSocket! Exiting program.");
 			System.exit(1);
 		}
-		
 	}
 
 	public static void readPolicyFile() {
@@ -192,5 +192,4 @@ public class ProxyServer {
 		}
 		return true;
 	}
-	
 }

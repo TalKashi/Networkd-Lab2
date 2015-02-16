@@ -1,6 +1,10 @@
+import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -22,24 +26,28 @@ public class ProxyHandler {
 	private final static String SEE_LOG_SITE = "http://content-proxy/logs";
 	private final static String NEW_POLICIES= "http://content-proxy/new_policies";
 	private static final int BUFFER_SIZE = 1024;	
-
 	private HTTPRequest request;
 	private Socket destination;
-	private DataOutputStream output;
+	private DataOutputStream output , tempOutput;
 	private DataInputStream input;
 	private boolean chunked = false;
 	private String contentLength = null;
 	private int myCounter;
 	private String host, path, ruleBlocked;
+	private SitesCache sitesCache;
+	private String contentFileName;
 
 	/**
 	 * Constructor
 	 * @param request
 	 * @param counter
+	 * @param sitesCache 
 	 */
-	public ProxyHandler(HTTPRequest request, int counter) {
+	public ProxyHandler(HTTPRequest request, int counter, SitesCache sitesCache) {
 		this.request = request;
 		myCounter = counter;
+		contentFileName = "cache/" + String.valueOf(request.getFirstLine().hashCode());
+		this.sitesCache = sitesCache;
 	}
 
 	/**
@@ -96,10 +104,24 @@ public class ProxyHandler {
 		System.out.println(myCounter + " | ### Finished sending request from proxy ###");
 	}
 
-	public void getResponse(DataOutputStream clientOutputStream) throws IOException {
+	public void getResponseAndSendIt(DataOutputStream clientOutputStream) throws IOException {
 		System.out.println(myCounter + " | ### Getting response from destination host and sending to client ###");
 		boolean foundChunkedOrContentLength = false;
+		boolean isInCache = sitesCache.containsAndUpdateTime(request.getFirstLine());
+		tempOutput = clientOutputStream;
+		BufferedInputStream  bis;
 		String line;
+		
+		if(isInCache){
+			File file = new File(contentFileName);
+			FileInputStream fis = new FileInputStream(file);
+			bis = new BufferedInputStream(fis);
+			input.close();
+			input = new DataInputStream(bis);
+		}else{
+			FileOutputStream fos = new FileOutputStream(contentFileName);
+			clientOutputStream = new DataOutputStream(fos);
+		}
 		
 		while((line = readLine()) != null && !line.isEmpty()) {
 			System.out.println(line);
@@ -154,6 +176,14 @@ public class ProxyHandler {
 			System.out.println(myCounter + " | DEBUG PRINT: Finished reading after " + totalRead + " bytes");
 		}
 		clientOutputStream.flush();
+		if(!isInCache){
+			sitesCache.addSite(request.getFirstLine(), this);
+			clientOutputStream.close();
+			getResponseAndSendIt(tempOutput);
+			tempOutput.close();
+		}else{
+			sitesCache.updateLastUsed(request.getFirstLine());
+		}
 		System.out.println(myCounter + " | ### Finished getting response from destination host and sending to client ###");
 	}
 
@@ -164,6 +194,10 @@ public class ProxyHandler {
 			if(output != null) {
 				output.flush();
 				output.close();
+			}
+			if(tempOutput != null) {
+				tempOutput.flush();
+				tempOutput.close();
 			}
 			if(destination != null)
 				destination.close();
