@@ -20,7 +20,7 @@ public class SitesCache {
 		return false;
 	}
 
-	public void updateLastUsed(String site){
+	public void updateLastUsed(String site) {
 		sites.get(site.toLowerCase()).updateLastUsed();
 	}
 
@@ -29,7 +29,7 @@ public class SitesCache {
 	}
 
 	public CachedWebPage getSite(String site){
-		if(sites.containsKey(site.toLowerCase())){
+		if(sites.containsKey(site.toLowerCase())) {
 			return sites.get(site.toLowerCase());
 		}
 		return null;  
@@ -38,7 +38,7 @@ public class SitesCache {
 	public synchronized void addSite(String firstLine) {
 		CachedWebPage webPage = new CachedWebPage(firstLine);
 		sites.put(firstLine.toLowerCase(), webPage);
-		if(sites.size() >= MAX_NUMBER_OF_SITES_IN_CACHE){
+		if(sites.size() >= MAX_NUMBER_OF_SITES_IN_CACHE) {
 			removeMostUnusedSite();
 		}
 	}
