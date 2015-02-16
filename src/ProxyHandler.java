@@ -123,7 +123,8 @@ public class ProxyHandler {
 				File file = new File(cachedSiteFileName);
 				FileInputStream fis = new FileInputStream(file);
 				bis = new BufferedInputStream(fis);
-				input.close();
+				if(input != null)
+					input.close();
 				input = new DataInputStream(bis);
 			} catch(FileNotFoundException e){
 				isInCache = false;

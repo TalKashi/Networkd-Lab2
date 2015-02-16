@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.Set;
 
@@ -104,6 +105,8 @@ public class HTTPConnection implements Runnable {
 				if(keepAliveValue != null && keepAliveValue.equalsIgnoreCase("close"))
 					keepAlive = false;
 
+			} catch (UnknownHostException e) {
+				generateInternalErrorResponse(e);
 			} catch (IOException e) {
 				// Connection has been closed
 				System.out.println(myCounter + " | ### IOException! ###");
@@ -111,18 +114,22 @@ public class HTTPConnection implements Runnable {
 				e.printStackTrace();
 				break;
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-				try {
-					if(output != null)
-						new HTTPResponse(output).generateSpecificResponse(500);
-				} catch (IOException e1) {
-					// Nothing to do
-				}
+				generateInternalErrorResponse(e);
 			}	
 		}
 		System.out.println(myCounter + " | ### Connection is closing ###");
 		closeConnection();
+	}
+	
+	private void generateInternalErrorResponse(Exception e) {
+		System.out.println(e.getMessage());
+		e.printStackTrace();
+		try {
+			if(output != null)
+				new HTTPResponse(output).generateSpecificResponse(500);
+		} catch (IOException e1) {
+			// Nothing to do
+		}
 	}
 
 	private void closeConnection() {

@@ -15,6 +15,7 @@ import java.util.Set;
  */
 public class ProxyServer {
 	private final static String CONFIG_FILE = "config.ini";
+	private final static String CACHE_FOLDER = "cache";
 	private static String defaultPage = null;
 	private static int port = 0;
 	private static int maxThreads = 0;
@@ -107,6 +108,8 @@ public class ProxyServer {
 		
 		WebServer server;
 		try {
+			File cacheFolder = new File(CACHE_FOLDER);
+			cacheFolder.mkdir();
 			server = new WebServer(port, maxThreads , policies , writer , sitesChach);
 			server.run();
 		} catch(IOException e) {
