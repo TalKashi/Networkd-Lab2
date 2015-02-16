@@ -84,9 +84,7 @@ public class ProxyHandler {
 	}
 
 	public void sendRequest() throws IOException {
-		if(isEditPolicy() || isSeeLog() || isNewPolicies()){
-			return;
-		}
+
 		System.out.println(myCounter + " | ### Sending request from proxy ###");
 
 		output.writeBytes(request.getMethod().toString() + " " + path + " " + request.getVersion() + CRLF);
