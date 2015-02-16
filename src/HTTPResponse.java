@@ -85,7 +85,7 @@ public class HTTPResponse {
 		}
 		input.close();
 		body += "</html>";
-		sendResponse(OK, body, isHead);
+		sendResponse(OK, body, !isHead);
 	}
 
 	/**
