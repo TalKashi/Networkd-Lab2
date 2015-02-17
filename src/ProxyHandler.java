@@ -125,6 +125,8 @@ public class ProxyHandler {
 					input.close();
 				input = new DataInputStream(bis);
 			} catch(FileNotFoundException e){
+				connectToHost();
+				sendRequest();
 				isInCache = false;
 			}
 		}

@@ -6,14 +6,14 @@ import java.util.Map;
 
 public class SitesCache {
 	private final int MAX_NUMBER_OF_SITES_IN_CACHE = 40;
-	private final int MAX_MINUTES_WITHOUT_UPDATE = 60 * 48;
+	private final int MAX_HOURS_WITHOUT_UPDATE = 48;
 	private static Map<String , CachedWebPage> sites = new HashMap<String, CachedWebPage>();
 
 	public boolean containsAndUpdateTime(String site){
 		if(sites.containsKey(site.toLowerCase())){
 			long lastUpdate = sites.get(site.toLowerCase()).getLastUpdate().getTime();
 			long now = new Date().getTime();
-			if((lastUpdate - now)/(1000*60) < MAX_MINUTES_WITHOUT_UPDATE){
+			if((lastUpdate - now)/(1000*60*60) < MAX_HOURS_WITHOUT_UPDATE){
 				return true;
 			}
 		}

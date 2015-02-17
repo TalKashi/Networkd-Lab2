@@ -4,3 +4,17 @@ Added policy rule block-header "<header_name>" - you can put headers so the prox
 And in addition this were the bonus that was used in Lab1:
 Our server does not accept POST without content-length (like the RFC says it is allowed), we return 411 - Length Required
 Added 400 - bad request when sending HTTP/1.1 and not having Host header
+
+Cache Memory: 
+------------	
+	Whenever the user is entering a new site, the proxy server will check if the site is in the cache memory, if the site is not in the cache it will be entered to it,
+	and then it will be send to user. if the site is in the cache, it will be sent from the file directly to the user without needing of wait to the input from the remote server.
+	Each cached site is being saved in a file under a directory called "/cached" that located in the main project directory.
+	The file name is given according to the hash code of the first line of the request to that site (it gives less room for mistakes then mapping only the site's path).
+	There is a maximum number of sites and files that can be stored, once the number of sites is reaching  to the maximum, for every new added site the site that was unused for the longest period will be erased.
+	Each cached site is holding a "last use date" parameter that is being updated every time the site is being asked for. according to that the server decide witch site to remove.
+	Farther more, if a site is in the cache for to long it will be erased after a chosen number of hours (MAX_HOURS_WITHOUT_UPDATE). to that cause each site is holding a "Last updated" parameter.
+	
+	
+	
+	
