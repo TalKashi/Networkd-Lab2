@@ -19,15 +19,15 @@ public class WebServer {
 	private ServerSocket server;
 	private ExecutorService threadsPool;
 	private PrintWriter writer;
-	private SitesCache sitesChach;
+	private SitesCache sitesCache;
 	
-	public WebServer(int port, int maxThreads, Map<String, Set<String>> policies, PrintWriter writer, SitesCache sitesChach) throws IOException {
+	public WebServer(int port, int maxThreads, Map<String, Set<String>> policies, PrintWriter writer, SitesCache sitesCache) throws IOException {
 
 		this.port = port;
 		this.maxThreads = maxThreads;
 		this.policies = policies;
 		this.writer = writer;
-		this.sitesChach = sitesChach;
+		this.sitesCache = sitesCache;
 		
 		threadsPool = Executors.newFixedThreadPool(this.maxThreads);
 		server = new ServerSocket(port);
@@ -39,7 +39,7 @@ public class WebServer {
 		while(true) {
 			try {
 				Socket connection = server.accept();
-				HTTPConnection HttpConnection = new HTTPConnection(connection, policies , writer , sitesChach);
+				HTTPConnection HttpConnection = new HTTPConnection(connection, policies , writer , sitesCache);
 				threadsPool.execute(HttpConnection);
 
 			} catch (IOException e) {

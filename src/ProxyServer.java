@@ -16,7 +16,6 @@ import java.util.Set;
 public class ProxyServer {
 	private final static String CONFIG_FILE = "config.ini";
 	private final static String CACHE_FOLDER = "cache";
-	private static String defaultPage = null;
 	private static int port = 0;
 	private static int maxThreads = 0;
 	private static File root = null;
@@ -66,9 +65,6 @@ public class ProxyServer {
 								System.out.println("ERROR: The given root folder '" + strArray[1] + "' does not exists or not a folder!");
 							}								
 						}
-					} else if (strArray[0].equalsIgnoreCase("defaultPage")) {
-						if(defaultPage == null)
-							defaultPage = strArray[1];
 					} else if (strArray[0].equalsIgnoreCase("maxThreads")) {
 						if(maxThreads <= 0)
 							maxThreads = Integer.parseInt(strArray[1]);
@@ -99,7 +95,7 @@ public class ProxyServer {
 			System.exit(1);
 		}
 		
-		if(logFile == null || root == null || defaultPage == null || port <= 0 || port >= 65536 || maxThreads <= 0) {
+		if(logFile == null || root == null || port <= 0 || port >= 65536 || maxThreads <= 0) {
 			System.out.println("ERROR: One of the given parameters in the config file is worng or missing! Exiting program.");
 			System.exit(1);
 		}
